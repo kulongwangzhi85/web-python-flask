@@ -1,0 +1,8 @@
+{% block messages %}
+    {% if get_flashed_messages() %}
+        {{ get_flashed_messages()[0] }}
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

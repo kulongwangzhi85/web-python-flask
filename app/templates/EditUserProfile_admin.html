@@ -1,0 +1,430 @@
+{% extends 'base.html' %}
+{% block head %}
+    {{ super() }}
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+{#    <link href="/static/build/css/custom.min.css" rel="stylesheet">#}
+    <link href="/static/css/custom.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+{% endblock %}
+{% block container %}
+    {{ super() }}
+<div class="container body">
+    <div class="main_container">
+        {% include 'left_col.html' %}
+        {% include 'top_navigation.html' %}
+
+
+        <!-- page content -->
+
+        <div role="main" class="right_col" style="min-height: 1172px;">
+
+
+            <div class="modal fade bs-example-modal-lg" id="edituserprofilemodal">
+                <div class="modal-dialog modal-lg">
+
+                     <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Edit User Profile<small>{{ userdb.username }}</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-wrench"></i></a>
+                                        <ul role="menu" class="dropdown-menu">
+                                            <li><a href="#">Settings 1</a>
+                                            </li>
+                                            <li><a href="#">Settings 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <br>
+                                <form class="form-horizontal form-label-left" method="POST" id="demo-form2" action="{{ url_for('EditProfiles', username=userdb.username ) }}">
+                                    {{ form.csrf_token() }}
+
+                                    <div class="form-group">
+                                        <label for="first-name" class="control-label col-md-3 col-sm-3 col-xs-12">First Name <span class="required"></span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            {{ form.firstname(class='form-control col-md-7 col-xs-12', id='first-name') }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last-name" class="control-label col-md-3 col-sm-3 col-xs-12">Last Name <span class="required"></span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            {{ form.lastname(class='form-control col-md-7 col-xs-12', id='last-name') }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Location">Location</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            {{ form.location(class='form-control col-md-7 col-xs-12', id='location') }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">email</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            {{ form.email(class='form-control col-md-7 col-xs-12', id='email') }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="role">Role</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                             {{ form.role(id='role') }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Phone</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                {{ form.phone(id='phone', class="form-control col-md-7 col-xs-12") }}
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                            <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                            {{ form.submit(class='btn btn-success') }}
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+
+
+
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3><strong>User Profile</strong></h3>
+                    </div>
+
+                    <div class="title_right">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search for..." class="form-control">
+                                <span class="input-group-btn">
+                      <button type="button" class="btn btn-default">Go!</button>
+                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>User Report</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-wrench"></i></a>
+                                        <ul role="menu" class="dropdown-menu">
+                                            <li><a href="#">Settings 1</a>
+                                            </li>
+                                            <li><a href="#">Settings 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                                    <div class="profile_img">
+                                        <div id="crop-avatar">
+                                            <!-- Current avatar -->
+                                            <img title="Change {{ userdb.username }} Picture" alt="Picture" src="{{ userdb.getmaster.picture }}" class="img-responsive avatar-view">
+                                        </div>
+                                    </div>
+                                    <h3><strong>{{ userdb.username }}</strong></h3>
+
+                                    <ul class="list-unstyled user_data">
+                                        <li><i class="fa fa-map-marker user-profile-icon"></i> Location: {{ userdb.getmaster.location }}
+                                        </li>
+
+                                        <li>
+                                            <i class="fa fa-briefcase user-profile-icon"></i> Software Engineer
+                                        </li>
+
+                                        <li class="m-top-xs">
+                                            <i class="fa fa-external-link user-profile-icon"></i>
+                                            <a target="_blank" href="http://www.kimlabs.com/profile/">www.kimlabs.com</a>
+                                        </li>
+                                    </ul>
+
+                                    <a class="btn btn-success" data-toggle="modal" data-target="#edituserprofilemodal"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                                    <br>
+
+                                    <!-- start skills -->
+                                    <h4>Skills</h4>
+                                    <ul class="list-unstyled user_data">
+                                        <li>
+                                            <p>Web Applications</p>
+                                            <div class="progress progress_sm">
+                                                <div data-transitiongoal="50" role="progressbar" class="progress-bar bg-green" style="width: 50%;" aria-valuenow="50"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p>Website Design</p>
+                                            <div class="progress progress_sm">
+                                                <div data-transitiongoal="70" role="progressbar" class="progress-bar bg-green" style="width: 70%;" aria-valuenow="70"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p>Automation &amp; Testing</p>
+                                            <div class="progress progress_sm">
+                                                <div data-transitiongoal="30" role="progressbar" class="progress-bar bg-green" style="width: 30%;" aria-valuenow="29"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p>UI / UX</p>
+                                            <div class="progress progress_sm">
+                                                <div data-transitiongoal="50" role="progressbar" class="progress-bar bg-green" style="width: 50%;" aria-valuenow="50"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- end of skills -->
+
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                                    <div class="profile_title">
+                                        <div class="col-md-6">
+                                            <h2>User Activity Report</h2>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED" class="pull-right" id="reportrange">
+                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                                <span>August 2, 2016 - August 31, 2016</span> <b class="caret"></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- start of user-activity-graph -->
+                                    <div style="width: 100%; height: 280px; position: relative;" id="graph_bar"><svg height="280" version="1.1" width="1171" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; top: -0.100006px;"><desc>Created with Raphaël @@VERSION</desc><defs/><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="197.50257737599998" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4.499998640648414">0</tspan></text><path style="" fill="none" stroke="#aaaaaa" d="M46,197.50257737599998H1146" stroke-width="0.5"/><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="154.37693303199998" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4.499995165789045">100</tspan></text><path style="" fill="none" stroke="#aaaaaa" d="M46,154.37693303199998H1146" stroke-width="0.5"/><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="111.25128868799999" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4.499999320324207">200</tspan></text><path style="" fill="none" stroke="#aaaaaa" d="M46,111.25128868799999H1146" stroke-width="0.5"/><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="68.125644344" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4.500003474859369">300</tspan></text><path style="" fill="none" stroke="#aaaaaa" d="M46,68.125644344H1146" stroke-width="0.5"/><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="25" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4.5">400</tspan></text><path style="" fill="none" stroke="#aaaaaa" d="M46,25H1146" stroke-width="0.5"/><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="1091" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,359.0654,1062.7453)"><tspan dy="4.499998640648414">Oct</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="981" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,303.8154,967.9155)"><tspan dy="4.499998640648414">Sep</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="871" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,248.8154,872.6527)"><tspan dy="4.499998640648414">Aug</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="761" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,195.0654,775.2248)"><tspan dy="4.499998640648414">Jul</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="651" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,139.0654,681.6941)"><tspan dy="4.499998640648414">Jun</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="541" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,83.3154,587.7303)"><tspan dy="4.499998640648414">May</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="431" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,29.3154,490.7355)"><tspan dy="4.499998640648414">Apr</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="321" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,-26.4346,396.7717)"><tspan dy="4.499998640648414">Mar</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="211" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,-81.1846,301.0759)"><tspan dy="4.499998640648414">Feb</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="101" y="210.00257737599998" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(0.5,-0.866,0.866,0.5,-135.9346,205.3801)"><tspan dy="4.499998640648414">Jan</tspan></text><rect x="59.75" y="163.0020619008" width="39.75" height="34.50051547519999" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="169.75" y="143.595521946" width="39.75" height="53.907055429999986" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="279.75" y="121.60144333055999" width="39.75" height="75.90113404543999" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="389.75" y="100.90113404543999" width="39.75" height="96.60144333055999" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="499.75" y="83.2196198644" width="39.75" height="114.28295751159997" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="609.75" y="62.08805413584" width="39.75" height="135.41452324015998" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="719.75" y="47.856591502320015" width="39.75" height="149.64598587367996" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="829.75" y="73.73197810872" width="39.75" height="123.77059926727998" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="939.75" y="94.0010309504" width="39.75" height="103.50154642559998" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/><rect x="1049.75" y="106.50746781016" width="39.75" height="90.99510956583998" rx="0" ry="0" fill="#26b99a" stroke="none" style="fill-opacity: 1;" fill-opacity="1"/></svg><div class="morris-hover morris-default-style" style="left: 149.5px; top: 101px; display: none;"><div class="morris-hover-row-label">Feb</div><div style="color: #26B99A" class="morris-hover-point">
+                                        Hours worked:
+                                        125
+                                    </div><div style="color: #34495E" class="morris-hover-point">
+                                        SORN:
+                                        -
+                                    </div></div></div>
+                                    <!-- end of user-activity-graph -->
+
+                                    <div data-example-id="togglable-tabs" role="tabpanel" class="">
+                                        <ul role="tablist" class="nav nav-tabs bar_tabs" id="myTab">
+                                            <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab" id="home-tab" href="#tab_content1">Recent Activity</a>
+                                            </li>
+                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" id="profile-tab" role="tab" href="#tab_content2">Projects Worked on</a>
+                                            </li>
+                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" id="profile-tab2" role="tab" href="#tab_content3">Profile</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div aria-labelledby="home-tab" id="tab_content1" class="tab-pane fade active in" role="tabpanel">
+
+                                                <!-- start recent activity -->
+                                                <ul class="messages">
+                                                    <li>
+                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">24</h3>
+                                                            <p class="month">May</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">Desmond Davison</h4>
+                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                                            <br>
+                                                            <p class="url">
+                                                                <span data-icon="" aria-hidden="true" class="fs1 text-info"></span>
+                                                                <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-error">21</h3>
+                                                            <p class="month">May</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">Brian Michaels</h4>
+                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                                            <br>
+                                                            <p class="url">
+                                                                <span data-icon="" aria-hidden="true" class="fs1"></span>
+                                                                <a data-original-title="" href="#">Download</a>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">24</h3>
+                                                            <p class="month">May</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">Desmond Davison</h4>
+                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                                            <br>
+                                                            <p class="url">
+                                                                <span data-icon="" aria-hidden="true" class="fs1 text-info"></span>
+                                                                <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-error">21</h3>
+                                                            <p class="month">May</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">Brian Michaels</h4>
+                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                                            <br>
+                                                            <p class="url">
+                                                                <span data-icon="" aria-hidden="true" class="fs1"></span>
+                                                                <a data-original-title="" href="#">Download</a>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                                <!-- end recent activity -->
+
+                                            </div>
+                                            <div aria-labelledby="profile-tab" id="tab_content2" class="tab-pane fade" role="tabpanel">
+
+                                                <!-- start user projects -->
+                                                <table class="data table table-striped no-margin">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Project Name</th>
+                                                        <th>Client Company</th>
+                                                        <th class="hidden-phone">Hours Spent</th>
+                                                        <th>Contribution</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>New Company Takeover Review</td>
+                                                        <td>Deveint Inc</td>
+                                                        <td class="hidden-phone">18</td>
+                                                        <td class="vertical-align-mid">
+                                                            <div class="progress">
+                                                                <div data-transitiongoal="35" class="progress-bar progress-bar-success" style="width: 35%;" aria-valuenow="35"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>New Partner Contracts Consultanci</td>
+                                                        <td>Deveint Inc</td>
+                                                        <td class="hidden-phone">13</td>
+                                                        <td class="vertical-align-mid">
+                                                            <div class="progress">
+                                                                <div data-transitiongoal="15" class="progress-bar progress-bar-danger" style="width: 15%;" aria-valuenow="15"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>Partners and Inverstors report</td>
+                                                        <td>Deveint Inc</td>
+                                                        <td class="hidden-phone">30</td>
+                                                        <td class="vertical-align-mid">
+                                                            <div class="progress">
+                                                                <div data-transitiongoal="45" class="progress-bar progress-bar-success" style="width: 45%;" aria-valuenow="45"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>New Company Takeover Review</td>
+                                                        <td>Deveint Inc</td>
+                                                        <td class="hidden-phone">28</td>
+                                                        <td class="vertical-align-mid">
+                                                            <div class="progress">
+                                                                <div data-transitiongoal="75" class="progress-bar progress-bar-success" style="width: 75%;" aria-valuenow="75"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- end user projects -->
+
+                                            </div>
+                                            <div aria-labelledby="profile-tab" id="tab_content3" class="tab-pane fade" role="tabpanel">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /page content -->
+
+        <!-- footer content -->
+        {% include 'footer.html' %}
+        <!-- /footer content -->
+
+    </div>
+</div>
+    <!-- jQuery -->
+{#    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>#}
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/js/moment/moment.min.js"></script>
+    <script src="/static/js/datepicker/daterangepicker.js"></script>
+
+    <script src="/static/vendors/raphael/raphael.min.js"></script>
+    <script src="/static/vendors/morris.js/morris.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script>
+    $(document).ready(function () {
+        $.ajax({
+            type: 'get',
+            url: '{{ url_for('EditProfileAboutme', username=userdb.username) }}',
+            success: function (data) {
+                $('#tab_content3').html(data)
+            }
+        });
+    })
+    </script>
+{% endblock %}

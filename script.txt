@@ -1,0 +1,58 @@
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/bootstrap/dist/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/nprogress/nprogress.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/iCheck/skins/flat/green.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/google-code-prettify/bin/prettify.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/switchery/dist/switchery.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/starrr/dist/starrr.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/jqvmap/dist/jqvmap.min.css') }}">
+
+
+   <script src="{{ url_for('static', filename='vendors/jquery/dist/jquery.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/fastclick/lib/fastclick.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/nprogress/nprogress.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/iCheck/icheck.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/moment/moment.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/datepicker/daterangepicker.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/jquery.hotkeys/jquery.hotkeys.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/google-code-prettify/src/prettify.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/switchery/dist/switchery.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/select2/dist/js/select2.full.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/parsleyjs/dist/parsley.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/autosize/dist/autosize.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/starrr/dist/starrr.js') }}"></script>
+
+   <script src="{{ url_for('static', filename='vendors/jquery/dist/jquery.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/fastclick/lib/fastclick.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/nprogress/nprogress.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/Chart.js/dist/Chart.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/gauge.js/dist/gauge.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/iCheck/icheck.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/skycons/skycons.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.resize.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.stack.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.time.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.pie.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/flot.curvedlines/curvedLines.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/DateJS/build/date.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/jqvmap/dist/jquery.vmap.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/moment/moment.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/datepicker/daterangepicker.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/raphael/raphael.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendors/morris.js/morris.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/custom.min.js') }}"></script>

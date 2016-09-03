@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {{ super() }}
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+{% endblock head %}
+
+{% block container %}
+    {{ super() }}
+    <div class="container body">
+        <div class="main_container">
+
+            {% include 'top_navigation.html' %}
+            {% include 'left_col.html' %}
+
+                <div role="main" class="right_col" style="min-height: 1145px;">
+
+                    <div class="">
+                        <div class="page-title">
+                            <div class="title_left">
+                                <h3>User Lists</h3>
+                            </div>
+
+                            <div class="title_right">
+                                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Search for..." class="form-control">
+                                        <span class="input-group-btn">
+                      <button type="button" class="btn btn-default">Go!</button>
+                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="x_panel">
+                                    <div class="x_content">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <ul class="pagination pagination-split">
+                                                    <li><a href="#">A</a></li>
+                                                    <li><a href="#">B</a></li>
+                                                    <li><a href="#">C</a></li>
+                                                    <li><a href="#">D</a></li>
+                                                    <li><a href="#">E</a></li>
+                                                    <li>...</li>
+                                                    <li><a href="#">W</a></li>
+                                                    <li><a href="#">X</a></li>
+                                                    <li><a href="#">Y</a></li>
+                                                    <li><a href="#">Z</a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="clearfix"></div>
+
+                                            {% for user in userdb %}
+
+                                            <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                                                <div class="well profile_view">
+                                                    <div class="col-sm-12">
+                                                        <h4 class="brief"><i>User Preview</i></h4>
+                                                        <div class="left col-xs-7">
+                                                            <h2>{{ user.username }}</h2>
+                                                            <p style="text-overflow: ellipsis; overflow: hidden;"><strong>About: </strong><nobr> {{ user.getmaster.about_me_text }}</nobr></p>
+                                                            <ul class="list-unstyled">
+                                                                <li><i class="fa fa-building"></i> Address: {{ user.getmaster.location }}</li>
+                                                                <li><i class="fa fa-phone"></i> Phone #: {{ user.getmaster.phone }}</li>
+                                                                <li><i class="fa fa-mortar-board"></i> Create Access: {{ user.create_datatime }}</li>
+                                                                <li><i class="fa fa-times"></i> Last_Seen:{{ user.last_seen }}</li>
+                                                                <li><i class="fa fa-cogs"></i> Permission:{{ user.get_role.name }}</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="right col-xs-5 text-center">
+                                                            <img class="img-circle img-responsive" alt="" src="{{ user.getmaster.picture }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 bottom text-center">
+                                                        <div class="col-xs-12 col-sm-6 emphasis">
+                                                            <p class="ratings">
+                                                                <a>4.0</a>
+                                                                <a href="#"><span class="fa fa-star"></span></a>
+                                                                <a href="#"><span class="fa fa-star"></span></a>
+                                                                <a href="#"><span class="fa fa-star"></span></a>
+                                                                <a href="#"><span class="fa fa-star"></span></a>
+                                                                <a href="#"><span class="fa fa-star-o"></span></a>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 emphasis">
+                                                            <button class="btn btn-success btn-xs" type="button"> <i class="fa fa-user">
+                                                            </i> <i class="fa fa-comments-o"></i> </button>
+                                                            <button class="btn btn-primary btn-xs" type="button" onclick="window.location.href='{{ url_for('EditProfiles', username=user.username ) }}'">
+                                                                <i class="fa fa-user"> </i>View Profile
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% include 'footer.html' %}
+
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+{% endblock container %}

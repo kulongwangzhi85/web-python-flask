@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block container %}
+<h1>Hello {{ user }}</h1>
+Welcome to Flask
+<p>To confirm your account pleace click on the following link:</p>
+    <a href="{{ url_for('confirm', username=user, token=token, _external=True) }}">
+        {{ url_for('confirm', username=user, token=token, _external=True) }}</a>
+Sincerely,
+{% endblock %}
