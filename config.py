@@ -8,4 +8,5 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///%s/app.db' % basedir
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 UPLOAD_FOLDER = os.path.join(basedir, 'app/static/images/')
+WEBSITEIMAGE = '/static/images/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])

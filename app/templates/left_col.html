@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a>
+                <a href="{{ url_for('index') }}" class="site_title"><i class="fa fa-paw"></i> <span>{{ setting.websitename }}</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -12,11 +12,11 @@
                   {% if user.is_authenticated %}
                       <img src="{{ user.getmaster.picture }}" alt="#" class="img-circle profile_img">
                   {% else %}
-                      <img src="{{ systemsetting.picture }}" alt="#" class="img-circle profile_img">
+                      <img src="{{ setting.picture }}" alt="#" class="img-circle profile_img">
                   {% endif %}
               </div>
               <div class="profile_info">
-                <span>Welcome,</span>
+                <h4>Welcome</h4>
                   {% if user.is_authenticated %}
                       <h2><strong>{{ user.username }}</strong></h2>
                   {% else %}

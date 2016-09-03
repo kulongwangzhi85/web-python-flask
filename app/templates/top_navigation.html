@@ -12,7 +12,7 @@
                       {% if user.is_authenticated %}
                           <img src="{{ user.getmaster.picture }}" alt="">{{ user.username }}
                       {% else %}
-                          <img src="{{ systemsetting.picture }}" alt="">{{ user.username }}
+                          <img src="{{ setting.picture }}" alt="">{{ user.username }}
                       {% endif %}
                     <span class=" fa fa-angle-down"></span>
                   </a>

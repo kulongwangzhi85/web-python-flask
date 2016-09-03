@@ -37,8 +37,8 @@ def UserLogin():
         session['remember_me'] = form.remember_me.data
         user = models.Users.query.filter_by(username=form.username.data).first()
         login_user(user, session['remember_me'])
-        return redirect(url_for('UserProfile', username=user.username))
-    return render_template('login.html', form=form)
+        return redirect(url_for('UserProfile', username=user.username, setting=g.systemsetting))
+    return render_template('login.html', form=form, setting=g.systemsetting)
 
 @app.route('/users/register/', methods=['GET', 'POST'])
 def UserRegister():
@@ -51,14 +51,14 @@ def UserRegister():
         u.save()
         flash('Confirm Your Access')
         login_user(u)
-        return redirect(url_for('confirmed', username=u.username))
-    return render_template('user_register.html', form=form, title='User Register')
+        return redirect(url_for('confirmed', username=u.username, setting=g.systemsetting))
+    return render_template('user_register.html', form=form, title='User Register', setting=g.systemsetting)
 
 @app.route('/users/confirmed/<username>')
 @login_required
 def confirmed(username):
     token = g.user.get_token()
-    return render_template('access_confirm.html', token=token, title='Confirmed Account', user=username)
+    return render_template('access_confirm.html', token=token, title='Confirmed Account', user=username, setting=g.systemsetting)
 
 @app.route('/users/confirm/<username>/<token>', methods=['GET'])
 @login_required
@@ -87,7 +87,7 @@ def UserProfile(username):
     form.email.data = g.user.getmaster.email
     form.phone.data = g.user.getmaster.phone
     form.location.data = g.user.getmaster.location
-    return render_template('user_profile.html', user=g.user, title='User Profile', form=form)
+    return render_template('user_profile.html', user=g.user, title='User Profile', form=form, setting=g.systemsetting)
 
 @app.route('/users/logout/', methods=['GET'])
 @login_required
@@ -101,7 +101,7 @@ def UserLogout():
 @decorators.admin_required
 def EditProfileAdmin():
     userdb = models.Users.query.all()
-    return render_template('EditProfileAdmin.html', user=g.user, userdb=userdb, title='Edit Profile')
+    return render_template('EditProfileAdmin.html', user=g.user, userdb=userdb, title='Edit Profile', setting=g.systemsetting)
 
 @app.route('/api/v1.0/users/count', methods=['GET', 'POST'])
 def UsersCount():
@@ -120,7 +120,7 @@ def EditProfileAboutmeAjax():
         return make_response()
 
     if request.method == 'GET':
-        return render_template('aboutme.html', title='About Me', user=g.user)
+        return render_template('aboutme.html', title='About Me', user=g.user, setting=g.systemsetting)
 
 
 @app.route('/api/v1.0/users/aboutme/post/<username>', methods=['GET'])
@@ -169,5 +169,5 @@ def EditProfiles(username):
     form.phone.data = userdb.getmaster.phone
     form.location.data = userdb.getmaster.location
     form.role.data = userdb.get_role.id
-    return render_template('EditUserProfile_admin.html', form=form, user=g.user, systemsetting = g.systemsetting, userdb=userdb, title='Edit Profile %s' % username)
+    return render_template('EditUserProfile_admin.html', form=form, user=g.user, setting=g.systemsetting, userdb=userdb, title='Edit Profile %s' % username)
 
