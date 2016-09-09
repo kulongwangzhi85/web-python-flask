@@ -56,7 +56,13 @@
                                     <form target='websiteform' class="form-horizontal form-label-left" method="post" action="{{ url_for('WebsiteManager') }}">
                                         {{ form.csrf_token() }}
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">WebSite Name</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">WebSite Title</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                {{ form.title(class='form-control', id='title') }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="websitename">WebSite Name</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 {{ form.websitename(class='form-control', id='websitename') }}
                                             </div>

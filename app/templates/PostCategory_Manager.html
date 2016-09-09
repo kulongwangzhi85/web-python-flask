@@ -32,7 +32,7 @@
 
                              <div class="page-title">
                                  <div class="title_left">
-                                     <h3> Category </h3>
+                                     <h3> PostCategory Manager<small> Setting </small> </h3>
                                  </div>
 
                                  <div class="title_right">
@@ -75,6 +75,25 @@
 
                                              <div class="row">
 
+                                                 <div class="col-md-55">
+                                                     <div class="thumbnail">
+                                                         <div class="image view view-first">
+                                                                <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
+                                                             <div class="mask">
+                                                                 <a href="#" data-toggle="modal" data-target="#add-category-modal">
+                                                                    <h3>Add Category</h3>
+                                                                 </a>
+                                                                 <div class="tools tools-bottom">
+                                                                     <a href="#" data-toggle="modal" data-target="#add-category-modal"><i class="fa fa-plus-square"></i></a>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                         <div class="caption">
+                                                             <p>Edit Post Category Comment</p>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
                                                  {% if postcategory_all is not none %}
                                                     {% for category in postcategory_all %}
 
@@ -111,6 +130,86 @@
                              </div>
 
                  </div>
+
+                 <div class="modal fade bs-example-modal-lg" role="dialog" aria-hidden="true" data-toggle="modal" id="add-category-modal">
+                     <div class="modal-dialog">
+
+                         <div class="x_panel">
+                             <div class="x_title">
+                                 <h2> PostCategory <small>Add</small></h2>
+                                 <ul class="nav navbar-right panel_toolbox">
+                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                     </li>
+                                     <li class="dropdown">
+                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                         <ul class="dropdown-menu" role="menu">
+                                             <li><a href="#">Settings 1</a>
+                                             </li>
+                                             <li><a href="#">Settings 2</a>
+                                             </li>
+                                         </ul>
+                                     </li>
+                                     <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                     </li>
+                                 </ul>
+                                 <div class="clearfix"></div>
+                             </div>
+                             <div class="x_content">
+                                 <br />
+                                 <form class="form-horizontal form-label-left" method="post" action="{{ url_for('PostCategoryManager') }}" enctype="multipart/form-data">
+                                     {{ form.csrf_token() }}
+                                     <div class="form-group">
+                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CategoryName">Category Name</label>
+                                         <div class="col-md-6 col-sm-6 col-xs-12">
+                                             {{ form.CategoryName(class='form-control', id='CategoryName') }}
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="small">Small</label>
+                                         <div class="col-md-6 col-sm-6 col-xs-12">
+                                             {{ form.small(class='form-control', id='small') }}
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="comment">Comment
+                                         </label>
+                                         <div class="col-md-6 col-sm-6 col-xs-12">
+                                             {{ form.comment(class='form-control', id='comment') }}
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="manager">Comment
+                                         </label>
+                                         <div class="col-md-6 col-sm-6 col-xs-12">
+                                             {{ form.manager(id='manager') }}
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="image">Image</label>
+                                         <div class="col-md-6 col-sm-6 col-xs-12">
+                                             {{ form.image(class='btn btn-upload', id='image') }}
+                                         </div>
+                                     </div>
+
+                                     <div class="ln_solid"></div>
+                                     <div class="form-group">
+                                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                             <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                             {{ form.submit(class='btn btn-success')}}
+                                         </div>
+                                     </div>
+
+                                 </form>
+
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+{#             用于增加分类的模态框#}
+
+
+
 
                  <div class="modal fade bs-example-modal-lg" role="dialog" aria-hidden="true" data-toggle="modal" id="modify-category-modal">
                      <div class="modal-dialog">
@@ -216,9 +315,7 @@
                  </div>
 {#             用于删除分类的模态框#}
              </div>
-
             {% include 'footer.html' %}
-
         </div>
     </div>
     <!-- Bootstrap -->

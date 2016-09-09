@@ -10,6 +10,7 @@ class SystemSettings(db.Model):
     __tablename__ = 'systemsettings'
     id = db.Column(db.Integer, primary_key=True)
     websitename = db.Column(db.String)
+    title = db.Column(db.String(12))
     images = db.Column(db.String)
     picture = db.Column(db.String)
     icon = db.Column(db.String)
@@ -27,6 +28,8 @@ class SystemSettings(db.Model):
 class PostCategory(db.Model):
     '''
     文章分类模型
+    forms:
+    views:     PostCategory
     '''
     __tablename__ = 'postcategory'
     id = db.Column(db.Integer, primary_key=True)
@@ -34,13 +37,22 @@ class PostCategory(db.Model):
     small = db.Column(db.String)
     image = db.Column(db.String)
     manager = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comment = db.Column(db.String(64))
     post = db.relationship('Post', backref=db.backref('get_post'), lazy='dynamic')
 
-    def __init__(self, image):
-        self.image = image
+    def __init__(self, **kwargs):
+        self.name = kwargs['name']
 
     def __repr__(self):
         return self.name
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 class Post(db.Model):
     '''

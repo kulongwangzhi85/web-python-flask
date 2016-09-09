@@ -4,3 +4,5 @@
 *.png
 *.ico
 *.db
+app.db
+db_repository
