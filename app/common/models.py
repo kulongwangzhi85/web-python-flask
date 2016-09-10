@@ -4,9 +4,12 @@ from datetime import datetime
 
 
 class SystemSettings(db.Model):
-    '''
+
+    """
+
     主要站点设置模型
-    '''
+
+    """
     __tablename__ = 'systemsettings'
     id = db.Column(db.Integer, primary_key=True)
     websitename = db.Column(db.String)
@@ -26,16 +29,21 @@ class SystemSettings(db.Model):
 
 
 class PostCategory(db.Model):
-    '''
+
+    """
+
     文章分类模型
+
     forms:
     views:     PostCategory
-    '''
+
+    """
     __tablename__ = 'postcategory'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     small = db.Column(db.String)
     image = db.Column(db.String)
+    url = db.Column(db.String)
     manager = db.Column(db.Integer, db.ForeignKey('users.id'))
     comment = db.Column(db.String(64))
     post = db.relationship('Post', backref=db.backref('get_post'), lazy='dynamic')
@@ -55,9 +63,13 @@ class PostCategory(db.Model):
         db.session.commit()
 
 class Post(db.Model):
-    '''
+
+    """
+
     文章模型
-    '''
+
+    """
+
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)

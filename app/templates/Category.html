@@ -75,33 +75,72 @@
 
                                              <div class="row">
 
-                                                 {% if postcategory_all is not none %}
-                                                    {% for category in postcategory_all %}
+                                                 {% if user.is_administrator() %}
 
-                                                        <div class="col-md-55">
-                                                            <div class="thumbnail">
-                                                                <div class="image view view-first">
-                                                                    {% if category.image is not none %}
-                                                                        <img alt="image" src="{{ category.image }}" style="width: 100%; display: block;">
-                                                                    {% else %}
-                                                                        <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
-                                                                    {% endif %}
-                                                                    <div class="mask">
-                                                                        <h3>{{ category.name }}</h3>
-                                                                        <div class="tools tools-bottom">
-                                                                            <a href="#" onclick="javascript:modifycategory('{{ category.id }}')"><i class="fa fa-pencil"></i></a>
-                                                                            <a href="#" onclick="javascript:delcategory('{{ category.id }}')"><i class="fa fa-times"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="caption">
-                                                                    <p>{{ category.comment }}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                     {% if postcategory_all is not none %}
+                                                         {% for category in postcategory_all %}
+                                                             <div class="col-md-55">
+                                                                 <div class="thumbnail">
+                                                                     <div class="image view view-first">
+                                                                         {% if category.image is not none %}
+                                                                             <img alt="image" src="{{ category.image }}" style="width: 100%; display: block;">
+                                                                         {% else %}
+                                                                             <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
+                                                                         {% endif %}
+                                                                         <div class="mask">
+                                                                             <a href="{{ category.url }}">
+                                                                                <h3>{{ category.name }}</h3>
+                                                                             </a>
+                                                                             <div class="tools tools-bottom">
+                                                                                 <a href="#" onclick="javascript:modifycategory('{{ category.id }}')"><i class="fa fa-pencil"></i></a>
+                                                                                 <a href="#" onclick="javascript:delcategory('{{ category.id }}')"><i class="fa fa-times"></i></a>
+                                                                             </div>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="caption">
+                                                                         <a href="{{ category.url }}">
+                                                                             <p>{{ category.comment }}</p>
+                                                                         </a>
+                                                                     </div>
+                                                                 </div>
+                                                             </div>
+                                                         {% endfor %}
+                                                     {% endif %}
 
-                                                    {% endfor %}
+                                                 {% else %}
+
+                                                     {% if postcategory_all is not none %}
+                                                         {% for category in postcategory_all %}
+                                                             <div class="col-md-55">
+                                                                 <div class="thumbnail">
+                                                                     <div class="image view view-first">
+                                                                         {% if category.image is not none %}
+                                                                             <img alt="image" src="{{ category.image }}" style="width: 100%; display: block;">
+                                                                         {% else %}
+                                                                             <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
+                                                                         {% endif %}
+                                                                         <div class="mask">
+                                                                             <a href="{{ category.url }}">
+                                                                                 <h3>{{ category.name }}</h3>
+                                                                             </a>
+{#                                                                             <h3>{{ category.name }}</h3>#}
+                                                                             <div class="tools tools-bottom" disabled="disabled">
+                                                                                 <a disabled="disabled" href="#"><i class="fa fa-pencil"></i></a>
+                                                                                 <a disabled="disabled" href="#"><i class="fa fa-times"></i></a>
+                                                                             </div>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="caption">
+                                                                         <a href="{{ category.url }}"></a>
+                                                                         <p>{{ category.comment }}</p>
+                                                                     </div>
+                                                                 </div>
+                                                             </div>
+                                                         {% endfor %}
+                                                     {% endif %}
+
                                                  {% endif %}
+
 
 
                                              </div>

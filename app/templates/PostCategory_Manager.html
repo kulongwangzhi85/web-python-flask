@@ -106,7 +106,9 @@
                                                                         <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
                                                                     {% endif %}
                                                                     <div class="mask">
-                                                                        <h3>{{ category.name }}</h3>
+                                                                        <a href="{{ category.url }}">
+                                                                            <h3>{{ category.name }}</h3>
+                                                                        </a>
                                                                         <div class="tools tools-bottom">
                                                                             <a href="#" onclick="javascript:modifycategory('{{ category.id }}')"><i class="fa fa-pencil"></i></a>
                                                                             <a href="#" onclick="javascript:delcategory('{{ category.id }}')"><i class="fa fa-times"></i></a>
@@ -114,7 +116,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="caption">
-                                                                    <p>{{ category.comment }}</p>
+                                                                    <a href="{{ category.url }}">
+                                                                        <p>{{ category.comment }}</p>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
