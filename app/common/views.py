@@ -16,7 +16,7 @@ from . import forms
 @app.route('/index')
 def index():
     user = g.user
-    return render_template('index.html', user=user, setting=g.systemsetting )
+    return render_template('index.html', user=user, setting=g.systemsetting)
 
 
 @app.errorhandler(404)

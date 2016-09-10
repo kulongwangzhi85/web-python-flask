@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+
 from app import db
 from datetime import datetime
 
@@ -10,6 +11,7 @@ class SystemSettings(db.Model):
     主要站点设置模型
 
     """
+
     __tablename__ = 'systemsettings'
     id = db.Column(db.Integer, primary_key=True)
     websitename = db.Column(db.String)
@@ -38,6 +40,7 @@ class PostCategory(db.Model):
     views:     PostCategory
 
     """
+
     __tablename__ = 'postcategory'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -61,6 +64,7 @@ class PostCategory(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
 
 class Post(db.Model):
 
