@@ -1,11 +1,16 @@
 # -*- coding:utf-8 -*-
+
+
+import os
+
+from flask import render_template, g, request, jsonify, make_response, json
+from flask_login import login_required
+
 from app import app, db
+from app.users import decorators
 from . import models
 from . import forms
-from flask_login import login_required
-from app.users import decorators
-from flask import render_template, g, request, jsonify, make_response, json
-import os
+
 
 @app.route('/')
 @app.route('/index')
@@ -13,13 +18,16 @@ def index():
     user = g.user
     return render_template('index.html', user=user, setting=g.systemsetting )
 
+
 @app.errorhandler(404)
 def page_404(e):
     return render_template('404.html', setting=g.systemsetting), 404
 
+
 @app.errorhandler(403)
 def page_404(e):
     return render_template('403.html', setting=g.systemsetting), 403
+
 
 @app.errorhandler(500)
 def page_404(e):
@@ -38,6 +46,7 @@ def admin_only():
     user = g.user
     return render_template('test.html', user=user, setting=g.systemsetting)
 
+
 @app.route('/test1/')
 @login_required
 @decorators.permssion_required(0x07)
@@ -49,6 +58,7 @@ def user_required():
     """
     user = g.user
     return render_template('test.html', user=user, setting=g.systemsetting)
+
 
 @app.route('/websitemanager/', methods=['GET', 'POST'])
 @login_required
@@ -77,6 +87,7 @@ def WebsiteManager():
     form.title.data = g.systemsetting.title
     return render_template('WebSite_Manager.html', user=g.user, setting=g.systemsetting, form=form)
 
+
 @app.route('/websitemanager/image/', methods=['POST'])
 @login_required
 @decorators.admin_required
@@ -93,6 +104,7 @@ def WebsiteImage():
     setting.save()
     f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
     return make_response()
+
 
 @app.route('/websitemanager/uploadPicture/', methods=['POST'])
 @login_required
@@ -111,6 +123,7 @@ def UploadPicture():
     f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
     return make_response()
 
+
 @app.route('/websitemanager/websiteicon/', methods=['POST'])
 @login_required
 @decorators.admin_required
@@ -128,12 +141,6 @@ def WebsiteIcon():
     f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
     return make_response()
 
-#文章视图
-# @app.route('/post/', methods=['GET'])
-# @login_required
-# @decorators.admin_required
-# def Post():
-#     return render_template('Post.html', user=g.user, setting=g.systemsetting)
 
 @app.route('/Category/', methods=['GET', 'POST'])
 def PostCategory():
@@ -147,6 +154,7 @@ def PostCategory():
     form = forms.PostCategoryManager()
     postcategory_all = models.PostCategory.query.order_by(models.PostCategory.name).all()
     return render_template('Category.html', form=form, user=g.user, setting=g.systemsetting, postcategory_all=postcategory_all)
+
 
 @app.route('/CategoryManager/', methods=['GET', 'POST'])
 @login_required
@@ -184,6 +192,7 @@ def PostCategoryManager():
             postcategory.save()
     return render_template('PostCategory_Manager.html', form=form, user=g.user, setting=g.systemsetting, postcategory_all=postcategory_all)
 
+
 @app.route('/CategoryManagerModify/', methods=['POST'])
 @login_required
 def PostCategoryManagerModify():
@@ -215,6 +224,7 @@ def PostCategoryDel():
         obj = models.PostCategory.query.get(int(id['id']))
         return json.dumps({'name': obj.name})
 
+
 @app.route('/CategoryDeleteing/', methods=['POST'])
 @login_required
 @decorators.admin_required
@@ -224,5 +234,4 @@ def PostCategoryDeleteing():
         obj = models.PostCategory.query.filter_by(name=arg['submit']).first()
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], os.path.basename(obj.image)))
         obj.delete()
-
         return make_response()
