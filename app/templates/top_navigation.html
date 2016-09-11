@@ -26,7 +26,7 @@
                               <a class="disabled" href="#"> Profile</a>
                           </li>
                       {% endif %}
-                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="{{ url_for('page_help') }}">Help</a></li>
                       <li>
                           {% if user.is_authenticated %}
                               <a href="{{ url_for('UserLogout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>

@@ -34,6 +34,10 @@ def page_404(e):
     return render_template('500.html', setting=g.systemsetting), 500
 
 
+@app.route('/help/', methods=['GET'])
+def page_help():
+    return render_template('help.html', setting=g.systemsetting)
+
 @app.route('/test/')
 @login_required
 @decorators.admin_required
