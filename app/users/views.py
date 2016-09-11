@@ -1,20 +1,24 @@
 # -*- coding:utf-8 -*-
-from app import app, lm, db, csrf
+
+import os
 from purifier.purifier import HTMLPurifier
 from flask import json, send_from_directory, render_template, redirect, flash, g, session, url_for, request, jsonify, make_response
 from flask_login import current_user, login_user, login_required, logout_user
 from datetime import datetime
-import os
+
 import forms
 import models
 import decorators
 from config import UPLOAD_FOLDER
 from app.common.models import SystemSettings
+from app.common.models import PostCategory
+from app import app, lm, db, csrf
 
 
 @app.teardown_request
 def teardown_request(excaption=None):
     db.session.remove()
+
 
 @app.before_request
 def befor_request():
@@ -24,9 +28,11 @@ def befor_request():
         g.user.last_seen = datetime.utcnow()
         g.user.save()
 
+
 @lm.user_loader
 def load_user(id):
     return models.Users.query.get(int(id))
+
 
 @app.route('/users/login/', methods=['GET', 'POST'])
 def UserLogin():
@@ -39,6 +45,7 @@ def UserLogin():
         login_user(user, session['remember_me'])
         return redirect(url_for('UserProfile', username=user.username, setting=g.systemsetting))
     return render_template('login.html', form=form, setting=g.systemsetting)
+
 
 @app.route('/users/register/', methods=['GET', 'POST'])
 def UserRegister():
@@ -100,14 +107,24 @@ def UserLogout():
 @login_required
 @decorators.admin_required
 def EditProfileAdmin():
+
+    """
+    admin管理员编辑用户的信息
+    """
+
     userdb = models.Users.query.all()
     return render_template('EditProfileAdmin.html', user=g.user, userdb=userdb, title='Edit Profile', setting=g.systemsetting)
 
-@app.route('/api/v1.0/users/count', methods=['GET', 'POST'])
-def UsersCount():
-    users = models.Users.query.all()
-    m = "%04d" % len(users)
-    return jsonify({ 'users_count' : m })
+
+@app.route('/api/v1.0/infocount/', methods=['GET', 'POST'])
+def websiteinfocount():
+
+    userscount = models.Users.query.all()
+    categorycount = PostCategory.query.all()
+    m = "%04d" % len(userscount)
+    c = "%04d" % len(categorycount)
+    return jsonify({'users_count': m, 'category_count': c})
+
 
 @app.route('/api/v1.0/users/aboutme', methods=['GET', 'POST'])
 def EditProfileAboutmeAjax():
@@ -128,9 +145,11 @@ def EditProfileAboutme(username):
     userdb = models.Users.query.filter_by(username=username).first()
     return jsonify(userdb.getmaster.about_me)
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+
 
 @app.route('/users/uploads/images/', methods=['POST'])
 def upload_file():
@@ -143,6 +162,7 @@ def upload_file():
         f.save(os.path.join(uploadpicturepath, f.filename))
 
         return make_response()
+
 
 @app.route('/users/edit/profiles/<username>', methods=['GET', 'POST'])
 @login_required
