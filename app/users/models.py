@@ -10,6 +10,7 @@ Picture = '/static/images/users/picture.jpg'
 class Users(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, index=True, unique=True)
     username = db.Column(db.String(128), index=True, unique=True)
     password_hash = db.Column(db.String(256))
     email = db.Column(db.String(128), index=True, unique=True)
