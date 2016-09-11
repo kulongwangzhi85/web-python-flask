@@ -9,7 +9,7 @@
             <!-- menu profile quick info -->
             <div class="profile">
               <div class="profile_pic">
-                  {% if user.is_authenticated %}
+                  {% if user.is_authenticated and user.getmaster.picture is not none %}
                       <img src="{{ user.getmaster.picture }}" alt="#" class="img-circle profile_img">
                   {% else %}
                       <img src="{{ setting.picture }}" alt="#" class="img-circle profile_img">
@@ -37,23 +37,15 @@
                     <ul class="nav child_menu">
                       <li><a href="{{ url_for('index') }}">Index</a></li>
                       <li><a href="{{ url_for('PostCategory') }}">Category</a></li>
-{#                      <li><a href="{{ url_for('Post') }}">Posts</a></li>#}
                     </ul>
                   </li>
                     {% if user.is_administrator() %}
                   <li><a><i class="fa fa-edit"></i> Manager <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
 
-
                               <li><a href="{{ url_for('EditProfileAdmin') }}">Users Manager</a></li>
                               <li><a href="{{ url_for('WebsiteManager') }}">Website Manager</a></li>
                               <li><a href="{{ url_for('PostCategoryManager') }}">Category Manager</a></li>
-
-{#                              {% else %}#}
-{##}
-{#                              <li class="disabled"><a class="disabled" href="#" >Users Manager</a></li>#}
-{#                              <li class="disabled"><a class="disabled" href="#" >Website Manager</a></li>#}
-{#                              <li class="disabled"><a class="disabled" href="#" >Category Manager</a></li>#}
 
                       </ul>
                   </li>

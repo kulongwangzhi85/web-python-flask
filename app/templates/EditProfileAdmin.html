@@ -78,7 +78,11 @@
                                                             </ul>
                                                         </div>
                                                         <div class="right col-xs-5 text-center">
-                                                            <img class="img-circle img-responsive" alt="" src="{{ user.getmaster.picture }}">
+                                                            {% if user.getmaster.picture is not none %}
+                                                                <img class="img-circle img-responsive" alt="#" src="{{ user.getmaster.picture }}">
+                                                            {% else %}
+                                                                <img class="img-circle img-responsive" alt="#" src="{{ setting.picture }}">
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-12 bottom text-center">

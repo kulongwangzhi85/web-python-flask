@@ -21,7 +21,7 @@ class SystemSettings(db.Model):
     icon = db.Column(db.String)
     about_website = db.Column(db.String)
 
-    def __init__(self, picture='/static/images/users/picture.jpg', websitename='Flask_Web'):
+    def __init__(self, picture='/static/images/users/user.jpg', websitename='Flask_Web'):
         self.picture = picture
         self.websitename = websitename
 

@@ -58,7 +58,11 @@
                                 <div class="profile_img">
                         <div id="crop-avatar">
                           <!-- Current avatar -->
-                            <img class="img-responsive avatar-view" src="{{ user.getmaster.picture }}" alt="Avatar" title="Change the avatar">
+                            {% if user.getmaster.picture is not none %}
+                                <img class="img-responsive avatar-view" src="{{ user.getmaster.picture }}" alt="Avatar" title="Change the avatar">
+                            {% else %}
+                                <img class="img-responsive avatar-view" src="{{ setting.picture }}" alt="Avatar" title="Change the avatar">
+                            {% endif %}
                         </div>
                       </div>
                       <h3>About Me:</h3>

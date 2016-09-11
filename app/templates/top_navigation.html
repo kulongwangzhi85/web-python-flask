@@ -9,7 +9,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      {% if user.is_authenticated %}
+                      {% if user.is_authenticated and user.getmaster.picture is not none %}
                           <img src="{{ user.getmaster.picture }}" alt="">{{ user.username }}
                       {% else %}
                           <img src="{{ setting.picture }}" alt="">{{ user.username }}

@@ -7,7 +7,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from app import db, app, lm
 
-Picture = '/static/images/users/picture.jpg'
 
 class Users(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -93,9 +92,6 @@ class UserProfile(db.Model):
     about_me_text = db.Column(db.String)
     master = db.relationship('Users', backref=db.backref('getmaster'), lazy='select', uselist=False)
 
-    def __init__(self, picture=Picture):
-        self.picture = picture
-
     def save(self):
         db.session.add(self)
         db.session.commit()
@@ -145,10 +141,8 @@ class Role(db.Model):
         db.session.commit()
 
 
-
 class AnonymousUser(AnonymousUserMixin):
     username = 'Anonymous'
-    picture = Picture
     def can(self, permssions):
         return False
     def is_administrator(self):
