@@ -1,9 +1,11 @@
 # -*- coding:utf-8 -*-
-from app import db, app, lm
+
+import random
 from datetime import datetime
 from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from app import db, app, lm
 
 Picture = '/static/images/users/picture.jpg'
 
@@ -26,6 +28,7 @@ class Users(db.Model, UserMixin):
         self.username = kwargs['username']
         self.email = kwargs['email']
         self.password(kwargs['password'])
+        self.userid = random.randint(10000,200000)
         if self.role is None:
             if self.email == app.config['FLASK_ADMIN_EMAIL']:
                 role = Role.query.filter_by(permssions=0xff).first()
