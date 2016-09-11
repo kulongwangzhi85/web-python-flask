@@ -4,6 +4,7 @@ from wtforms.validators import Email,EqualTo,DataRequired,Length, Optional
 from wtforms import TextAreaField, SelectField,StringField,BooleanField,PasswordField,SubmitField, ValidationError, IntegerField
 from models import Users, Role
 
+
 class LoginForm(Form):
     '''
     用户登入表单验证
@@ -16,12 +17,13 @@ class LoginForm(Form):
     def validate_username(self, field):
         u = Users.query.filter_by(username=self.username.data).first()
         if u is None or field.data != u.username:
-            raise ValidationError('Username Is Erroor')
+            raise ValidationError('Username and Password Is Error')
 
     def validate_password(self, field):
         u = Users.query.filter_by(username=self.username.data).first()
-        if not u.verify_password(field.data):
-            raise ValidationError('Password Is Erroor')
+        if u is None or not u.verify_password(field.data):
+            raise ValidationError('Username and Password Is Error')
+
 
 class UserRegisterForm(Form):
     '''
@@ -33,6 +35,7 @@ class UserRegisterForm(Form):
     email = StringField(validators=[DataRequired(), Email()])
     submit = SubmitField()
 
+
 class UserProfileForm(Form):
     '''
     用户档案表单验证
@@ -43,6 +46,7 @@ class UserProfileForm(Form):
     phone = IntegerField(validators=[Optional()])
     location = StringField(validators=[Optional(),Length(max=256)])
     submit = SubmitField('Submit')
+
 
 class EditProfileAdminForm(Form):
     '''
