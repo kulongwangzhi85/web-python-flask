@@ -72,9 +72,10 @@
         $(document).ready(function () {
             $.ajax({
                 type: 'get',
-                url: '{{ url_for('UsersCount') }}',
+                url: '{{ url_for('websiteinfocount') }}',
                 success: function (data) {
-                    $('#user_count').html(data['users_count'])
+                    $('#user_count').html(data['users_count']);
+                    $('#category_count').html(data['category_count']);
                 }
             })
         })
