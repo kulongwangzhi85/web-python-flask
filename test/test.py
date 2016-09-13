@@ -17,9 +17,9 @@ class SQLALchemyTest(unittest.TestCase):
 
     def tearDown(self):
         db.session.remove()
-        db.drop_all()
+        #db.drop_all()
 
-    def test_print(self):
+    def test_post(self):
         print basedir
 
 

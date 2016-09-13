@@ -79,13 +79,18 @@ class Post(db.Model):
     name = db.Column(db.String)
     small = db.Column(db.String)
     author = db.Column(db.Integer, db.ForeignKey('users.id'))
-    image = db.Column(db.String)
     ctime = db.Column(db.DateTime())
     mtime = db.Column(db.DateTime())
+    container = db.Column(db.PickleType)
     category = db.Column(db.Integer, db.ForeignKey('postcategory.id'))
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.ctime = datetime.utcnow()
+        self.name = kwargs['name']
 
     def __repr__(self):
         return self.name
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()

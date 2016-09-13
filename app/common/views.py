@@ -239,3 +239,10 @@ def PostCategoryDeleteing():
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], os.path.basename(obj.image)))
         obj.delete()
         return make_response()
+
+
+@app.route('/posts/<category>/', methods=['GET', 'POST'])
+def posts(category):
+    categorydb = models.PostCategory.query.filter_by(name=category).first()
+    posts = categorydb.post
+    return render_template('PostCategory_Manager.html', user=g.user, setting=g.systemsetting, posts=posts)
