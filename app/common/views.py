@@ -245,4 +245,4 @@ def PostCategoryDeleteing():
 def posts(category):
     categorydb = models.PostCategory.query.filter_by(name=category).first()
     posts = categorydb.post
-    return render_template('PostCategory_Manager.html', user=g.user, setting=g.systemsetting, posts=posts)
+    return render_template('posts.html', user=g.user, setting=g.systemsetting, posts=posts, category=categorydb)

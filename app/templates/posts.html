@@ -5,11 +5,6 @@
     <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-    <link href="/static/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
-    <link href="/static/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
-    <link href="/static/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
-    <link href="/static/vendors/starrr/dist/starrr.css" rel="stylesheet">
     <link href="/static/build/css/custom.min.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
@@ -24,9 +19,113 @@
             {% include 'top_navigation.html' %}
 
 
-             <div class="right_col" role="main">
-                 {% include 'tile_count.html' %}
-             </div>
+
+            <div role="main" class="right_col" style="min-height: 1039.92px;">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Posts</h3>
+                        </div>
+
+                        <div class="title_right">
+                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Search for..." class="form-control">
+                                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default">Go!</button>
+                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>{{ category.name }}<small>{{ category.small }}</small></h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-wrench"></i></a>
+                                            <ul role="menu" class="dropdown-menu">
+                                                <li><a href="#">Settings 1</a>
+                                                </li>
+                                                <li><a href="#">Settings 2</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="col-md-8 col-lg-8 col-sm-7">
+
+                                        <!-- blockquote -->
+                                        {% set a = 0 %}
+                                        {% for container in posts %}
+
+                                            {% if (a % 2) == 0 %}
+                                                <blockquote>
+                                                    <p> {{ container.container }}</p>
+                                                    <footer>
+                                                        Author: <cite title="Source Title">{{ container.get_author.username }}</cite>
+                                                        <br>
+                                                        Create DataTime: <cite title="Source Title">{{ container.ctime }}</cite>
+                                                    </footer>
+                                                </blockquote>
+
+                                            {% else %}
+
+                                                <blockquote class="blockquote-reverse">
+                                                    <p> {{ container.container }}</p>
+                                                    <footer style="display: block;">
+                                                        Author: <cite title="Source Title">{{ container.author }}</cite>
+                                                        <br>
+                                                        Create DataTime: <cite title="Source Title">{{ container.ctime }}</cite>
+                                                    </footer>
+                                                </blockquote>
+
+                                            {% endif %}
+
+                                            {% set a = a + 1 %}
+
+                                        {% endfor %}
+
+
+
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 col-sm-5">
+                                        <h1>{{ category.name }}</h1>
+                                        <h3>{{ category.small }}</h3>
+                                        <button class="btn btn-primary">Create</button>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-md-12">
+                                        <h4>Labels and badges</h4>
+                                        <span class="label label-default">Default</span>
+                                        <span class="label label-primary">Primary</span>
+                                        <span class="label label-success">Success</span>
+                                        <span class="label label-info">Info</span>
+                                        <span class="label label-warning">Warning</span>
+                                        <span class="label label-danger">Danger</span>
+                                        <span class="badge badge-success">42</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             {% include 'footer.html' %}
 
@@ -38,30 +137,6 @@
     <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="/static/vendors/nprogress/nprogress.js"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <!-- iCheck -->
-    <script src="/static/vendors/iCheck/icheck.min.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="/static/js/moment/moment.min.js"></script>
-    <script src="/static/js/datepicker/daterangepicker.js"></script>
-    <!-- bootstrap-wysiwyg -->
-    <script src="/static/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
-    <script src="/static/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
-    <script src="/static/vendors/google-code-prettify/src/prettify.js"></script>
-    <!-- jQuery Tags Input -->
-    <script src="/static/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
-    <!-- Switchery -->
-    <script src="/static/vendors/switchery/dist/switchery.min.js"></script>
-    <!-- Select2 -->
-    <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
-    <!-- Parsley -->
-    <script src="/static/vendors/parsleyjs/dist/parsley.min.js"></script>
-    <!-- Autosize -->
-    <script src="/static/vendors/autosize/dist/autosize.min.js"></script>
-    <!-- jQuery autocomplete -->
-    <script src="/static/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
-    <script src="/static/vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/static/build/js/custom.min.js"></script>
 {% endblock container %}
