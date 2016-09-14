@@ -30,6 +30,13 @@
         {% include 'top_navigation.html' %}
         <!-- /top navigation -->
 
+        <div id="test" style="position: fixed; top: 200px; right: 30px; z-index: 999">
+            <font size="60"><i class="fa fa-edit"></i></font>
+        </div>
+
+
+
+
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
@@ -1109,6 +1116,9 @@
 <script src="/static/build/js/custom.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#test').on('click', function () {
+            alert('ok')
+        });
         $('#birthday').daterangepicker({
             singleDatePicker: true,
             calender_style: "picker_4"
