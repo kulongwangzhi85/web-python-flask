@@ -241,8 +241,62 @@ def PostCategoryDeleteing():
         return make_response()
 
 
-@app.route('/posts/<category>/', methods=['GET', 'POST'])
+@app.route('/posts/<string:category>/', methods=['GET', 'POST'])
 def posts(category):
     categorydb = models.PostCategory.query.filter_by(name=category).first()
     posts = categorydb.post
     return render_template('posts.html', user=g.user, setting=g.systemsetting, posts=posts, category=categorydb)
+
+
+@app.route('/posts/add/', methods=['POST'])
+@login_required
+def createpost():
+
+    """
+    创建post
+    :return:
+    """
+    if request.method == 'POST' and request.is_xhr:
+        data = request.form.to_dict()
+        db = models.Post(name=data['title'])
+        db.small = data['small']
+        db.category = data['categoryid']
+        db.author = g.user.id
+        db.container = data['container']
+        db.save()
+    return make_response()
+
+
+@app.route('/posts/modify/', methods=['POST'])
+@login_required
+def modifypost():
+
+    """
+    修改post信息
+    :return:
+    """
+    if request.method == 'POST' and request.is_xhr:
+        data = request.form.to_dict()
+        db = models.Post.query.get(data['id'])
+        db.small = data['small']
+        db.container = data['container']
+        db.save()
+    return make_response()
+
+
+@app.route('/posts/getpost/', methods=['POST'])
+@login_required
+def getpost():
+
+    """
+    获取post数据到修改信息模态框
+    :return:
+    """
+    if request.method == 'POST' and request.is_xhr:
+        data = request.form.to_dict()
+        db = models.Post.query.get(data['id'])
+        return jsonify({
+            'name':db.name,
+            'small':db.small,
+            'container':db.container
+        })

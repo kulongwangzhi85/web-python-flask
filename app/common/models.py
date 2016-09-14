@@ -79,7 +79,7 @@ class Post(db.Model):
     name = db.Column(db.String)
     small = db.Column(db.String)
     author = db.Column(db.Integer, db.ForeignKey('users.id'))
-    ctime = db.Column(db.DateTime())
+    ctime = db.Column(db.DateTime(), default=datetime.utcnow)
     mtime = db.Column(db.DateTime())
     container = db.Column(db.PickleType)
     category = db.Column(db.Integer, db.ForeignKey('postcategory.id'))

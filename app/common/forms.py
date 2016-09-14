@@ -5,6 +5,7 @@ from wtforms.validators import Optional, Length, DataRequired
 from wtforms import SelectField, StringField, SubmitField, TextAreaField, FileField
 from app.users import models
 
+
 class SystemSettings(Form):
     '''
     系统设置表单验证
@@ -16,12 +17,14 @@ class SystemSettings(Form):
     title = StringField(validators=[Optional(), Length(max=12)])
     submit = SubmitField('Submit')
 
-class  PostCategoryManager(Form):
-    '''
+
+class PostCategoryManager(Form):
+
+    """
     post分类页面的变淡验证
     view:   PostCategoryManager
     model:  PostCategory
-    '''
+    """
     CategoryName = StringField(validators=[DataRequired(), Length(max=12)])
     small = StringField(validators=[Optional(), Length(max=12)])
     comment = StringField(validators=[Optional(), Length(max=64)])
@@ -33,3 +36,14 @@ class  PostCategoryManager(Form):
         super(PostCategoryManager, self).__init__(*args, **kwargs)
         self.manager.choices = [ ( user.id , user.username ) \
                                  for user in models.Users.query.order_by(models.Users.username).all() ]
+
+class CreatePostForm(Form):
+
+    """
+    用于创建post表单
+    view: posts
+    model POst
+    """
+
+    postTitle = StringField(validators=[DataRequired(), Length(min=3, max=64)])
+    submit = SubmitField('Submit')

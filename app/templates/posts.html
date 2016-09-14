@@ -19,12 +19,11 @@
             {% include 'top_navigation.html' %}
 
 
-
-            <div role="main" class="right_col" style="min-height: 1039.92px;">
+            <div role="main" class="right_col" style="min-height: 1037.83px;">
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>Posts</h3>
+                            <h1>{{ category.name }} <small>{{ category.small }}</small></h1>
                         </div>
 
                         <div class="title_right">
@@ -45,7 +44,6 @@
                         <div class="col-md-12">
                             <div class="x_panel">
                                 <div class="x_title">
-                                    <h2>{{ category.name }}<small>{{ category.small }}</small></h2>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                         </li>
@@ -65,46 +63,33 @@
                                 </div>
                                 <div class="x_content">
 
+                                    {% for post in posts %}
                                     <div class="col-md-8 col-lg-8 col-sm-7">
-
                                         <!-- blockquote -->
-                                        {% set a = 0 %}
-                                        {% for container in posts %}
 
-                                            {% if (a % 2) == 0 %}
-                                                <blockquote>
-                                                    <p> {{ container.container }}</p>
-                                                    <footer>
-                                                        Author: <cite title="Source Title">{{ container.get_author.username }}</cite>
-                                                        <br>
-                                                        Create DataTime: <cite title="Source Title">{{ container.ctime }}</cite>
-                                                    </footer>
-                                                </blockquote>
-
-                                            {% else %}
-
-                                                <blockquote class="blockquote-reverse">
-                                                    <p> {{ container.container }}</p>
-                                                    <footer style="display: block;">
-                                                        Author: <cite title="Source Title">{{ container.author }}</cite>
-                                                        <br>
-                                                        Create DataTime: <cite title="Source Title">{{ container.ctime }}</cite>
-                                                    </footer>
-                                                </blockquote>
-
-                                            {% endif %}
-
-                                            {% set a = a + 1 %}
-
-                                        {% endfor %}
-
-
+                                        <blockquote class="blockquote-reverse" style="padding-top: 30px">
+                                            <p id="postcontainer_p" style="min-height: 100px">{{ post.container }}</p>
+                                            <footer>
+                                                <span>Small:</span>
+                                                <cite title="Source Title">{{ post.small }}</cite>
+                                            </footer>
+                                        </blockquote>
 
                                     </div>
                                     <div class="col-md-4 col-lg-4 col-sm-5">
-                                        <h1>{{ category.name }}</h1>
-                                        <h3>{{ category.small }}</h3>
-                                        <button class="btn btn-primary">Create</button>
+                                        <h1>{{ post.name }}</h1>
+                                        <h2>Author: <span>{{ post.get_author.username }}</span></h2>
+                                        <h2>Create DataTime: <span>{{ post.ctime }}</span></h2>
+                                        <div>
+                                            {% if post.get_author.username == g.user.username %}
+                                                <a href="#" onclick="javascript:getpost('{{ post.id }}')" data-toggle="modal" data-target="#modify-post"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
+                                            {% else %}
+                                                <a href="#"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
+                                            {% endif %}
+                                            <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
+                                            <a href="#"><i class="fa fa-star" style="padding: 0 2px"></i></a>
+                                            <a href="#"><i class="fa fa-close" style="padding: 0 2px"></i></a>
+                                        </div>
                                     </div>
 
                                     <div class="clearfix"></div>
@@ -119,6 +104,7 @@
                                         <span class="label label-danger">Danger</span>
                                         <span class="badge badge-success">42</span>
                                     </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -131,6 +117,263 @@
 
         </div>
     </div>
+
+
+    <div class="modal fade bs-example-modal-lg" role="dialog" aria-hidden="true" data-toggle="modal" id="add-post">
+        <div class="modal-dialog">
+            <div class="x_panel" style="width: 150%">
+
+                <div class="x_title">
+                    <h2>POST<small>INFO</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postTitle">Title</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control" id="postTitle">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postSmall">Small</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control" id="postSmall">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postTitle">Container</label>
+
+                            <div class="col-md-11 col-sm-11 col-xs-12">
+
+                                <div data-target="#editor" data-role="editor-toolbar" class="btn-toolbar editor">
+
+                                    <div class="btn-group">
+                                        <a title="" data-toggle="dropdown" class="btn dropdown-toggle" data-original-title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a data-edit="fontSize 5">
+                                                    <p style="font-size:17px">Huge</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-edit="fontSize 3">
+                                                    <p style="font-size:14px">Normal</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-edit="fontSize 1">
+                                                    <p style="font-size:11px">Small</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="bold" class="btn" data-original-title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                                        <a title="" data-edit="italic" class="btn" data-original-title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                                        <a title="" data-edit="strikethrough" class="btn" data-original-title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                                        <a title="" data-edit="underline" class="btn" data-original-title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="insertunorderedlist" class="btn" data-original-title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                                        <a title="" data-edit="insertorderedlist" class="btn" data-original-title="Number list"><i class="fa fa-list-ol"></i></a>
+                                        <a title="" data-edit="outdent" class="btn" data-original-title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                                        <a title="" data-edit="indent" class="btn" data-original-title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="justifyleft" class="btn" data-original-title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                                        <a title="" data-edit="justifycenter" class="btn" data-original-title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                                        <a title="" data-edit="justifyright" class="btn" data-original-title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                                        <a title="" data-edit="justifyfull" class="btn" data-original-title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-toggle="dropdown" class="btn dropdown-toggle" data-original-title="Hyperlink"><i class="fa fa-link"></i></a>
+                                        <div class="dropdown-menu input-append">
+                                            <input type="text" data-edit="createLink" placeholder="URL" class="span2">
+                                            <button type="button" class="btn">Add</button>
+                                        </div>
+                                        <a title="" data-edit="unlink" class="btn" data-original-title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a id="pictureBtn" title="" class="btn" data-original-title="Insert picture (or just drag &amp; drop)"><i class="fa fa-picture-o"></i></a>
+                                        <input type="file" data-edit="insertImage" data-target="#pictureBtn" data-role="magic-overlay" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 41px; height: 34px;">
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="undo" class="btn" data-original-title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                                        <a title="" data-edit="redo" class="btn" data-original-title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                    </div>
+                                </div>
+
+                                <div contenteditable="true" class="editor-wrapper placeholderText" id="post_editor"></div>
+                            </div>
+
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-8 col-sm-8 col-xs-10 col-xs-offset-8">
+                                <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-success" onclick="javascript:createpost()" data-dismiss="modal">Submit</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade bs-example-modal-lg" role="dialog" aria-hidden="true" data-toggle="modal" id="modify-post">
+        <div class="modal-dialog">
+            <div class="x_panel" style="width: 150%">
+
+                <div class="x_title">
+                    <h2>POST<small>MODIFY</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postTitle">Title</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control" id="postTitle" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postSmall">Small</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control" id="postSmall">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postTitle">Container</label>
+
+                            <div class="col-md-11 col-sm-11 col-xs-12">
+
+                                <div data-target="#editor" data-role="editor-toolbar" class="btn-toolbar editor">
+
+                                    <div class="btn-group">
+                                        <a title="" data-toggle="dropdown" class="btn dropdown-toggle" data-original-title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a data-edit="fontSize 5">
+                                                    <p style="font-size:17px">Huge</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-edit="fontSize 3">
+                                                    <p style="font-size:14px">Normal</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-edit="fontSize 1">
+                                                    <p style="font-size:11px">Small</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="bold" class="btn" data-original-title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                                        <a title="" data-edit="italic" class="btn" data-original-title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                                        <a title="" data-edit="strikethrough" class="btn" data-original-title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                                        <a title="" data-edit="underline" class="btn" data-original-title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="insertunorderedlist" class="btn" data-original-title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                                        <a title="" data-edit="insertorderedlist" class="btn" data-original-title="Number list"><i class="fa fa-list-ol"></i></a>
+                                        <a title="" data-edit="outdent" class="btn" data-original-title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                                        <a title="" data-edit="indent" class="btn" data-original-title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="justifyleft" class="btn" data-original-title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                                        <a title="" data-edit="justifycenter" class="btn" data-original-title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                                        <a title="" data-edit="justifyright" class="btn" data-original-title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                                        <a title="" data-edit="justifyfull" class="btn" data-original-title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-toggle="dropdown" class="btn dropdown-toggle" data-original-title="Hyperlink"><i class="fa fa-link"></i></a>
+                                        <div class="dropdown-menu input-append">
+                                            <input type="text" data-edit="createLink" placeholder="URL" class="span2">
+                                            <button type="button" class="btn">Add</button>
+                                        </div>
+                                        <a title="" data-edit="unlink" class="btn" data-original-title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a id="pictureBtn" title="" class="btn" data-original-title="Insert picture (or just drag &amp; drop)"><i class="fa fa-picture-o"></i></a>
+                                        <input type="file" data-edit="insertImage" data-target="#pictureBtn" data-role="magic-overlay" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 41px; height: 34px;">
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a title="" data-edit="undo" class="btn" data-original-title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                                        <a title="" data-edit="redo" class="btn" data-original-title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                    </div>
+                                </div>
+
+                                <div contenteditable="true" class="editor-wrapper placeholderText" id="post_editor"></div>
+                            </div>
+
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-8 col-sm-8 col-xs-10 col-xs-offset-8">
+                                <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                <button id="submit" class="btn btn-success" onclick="javascript:modifypost()" data-dismiss="modal">Submit</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap -->
     <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -139,4 +382,78 @@
     <script src="/static/vendors/nprogress/nprogress.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/static/build/js/custom.min.js"></script>
+
+    <script>
+        function getpost(id) {
+            $.ajax({
+                url: '{{ url_for('getpost') }}',
+                data: {'id':id},
+                type: 'post',
+                success:function (data) {
+                    $('#modify-post #postTitle').val(data['name']);
+                    $('#modify-post #postSmall').val(data['small']);
+                    $('#modify-post #post_editor').html(data['container']);
+                    $('#modify-post button#submit').attr('value', id)
+                }
+            })
+        }
+        function modifypost() {
+            var id = $('#modify-post button#submit').attr('value');
+            var name = $('#modify-post #postTitle').val();
+            var postcontainer = $('#modify-post #post_editor').html();
+            var small = $('#modify-post #postSmall').val();
+            $.ajax({
+                url: '{{ url_for('modifypost') }}',
+                type: 'post',
+                data: {
+                    'id': id,
+                    'name': name,
+                    'container': postcontainer,
+                    'categoryid': '{{ category.id }}',
+                    'small': small
+                },
+                success: function (data) {
+                    window.location.reload()
+
+                }
+
+            });
+        }
+        function createpost() {
+            var title = $('#postTitle').val();
+            var postcontainer = $('#post_editor').html();
+            var small = $('#postSmall').val();
+            $.ajax({
+                url: '{{ url_for('createpost') }}',
+                type: 'post',
+                data: {
+                    'title': title,
+                    'container': postcontainer,
+                    'categoryid': '{{ category.id }}',
+                    'small': small
+                },
+                success: function (data) {
+                    window.location.reload()
+
+                }
+
+            });
+        }
+        $(document).ready(function () {
+            var csrftoken = $('meta[name=csrf-token]').attr('content');
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+
+            });
+            $('#add-post').on('hidden.bs.modal', function () {
+                $('input#postTitle').val('');
+                $('#postSmall').val('');
+                $('#post_editor').html('')
+            })
+        })
+    </script>
 {% endblock container %}
