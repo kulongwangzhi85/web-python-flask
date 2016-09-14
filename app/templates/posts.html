@@ -85,14 +85,14 @@
                                         <h2>Author: <span>{{ post.get_author.username }}</span></h2>
                                         <h2>Create DataTime: <span>{{ post.ctime }}</span></h2>
                                         <div>
-                                            {% if post.get_author.username == g.user.username %}
+                                            {% if post.get_author.username == g.user.username or user.is_administrator %}
                                                 <a href="#" onclick="javascript:getpost('{{ post.id }}')" data-toggle="modal" data-target="#modify-post"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
                                             {% else %}
                                                 <a href="#"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
                                             {% endif %}
                                             <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
                                             <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
-                                            {% if post.get_author.username == g.user.username %}
+                                            {% if post.get_author.username == g.user.username or user.is_administrator %}
                                                 <a href="#" onclick="getdelpostinfo('{{ post.id }}')" data-toggle="modal" data-target="#del-post"><i class="fa fa-close" style="padding: 0 2px"></i></a>
                                             {% else %}
                                                 <a href="#"><i class="fa fa-close" style="padding: 0 2px"></i></a>
