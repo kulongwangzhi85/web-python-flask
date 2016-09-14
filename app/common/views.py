@@ -2,6 +2,7 @@
 
 
 import os
+from datetime import datetime
 
 from flask import render_template, g, request, jsonify, make_response, json
 from flask_login import login_required
@@ -280,6 +281,7 @@ def modifypost():
         db = models.Post.query.get(data['id'])
         db.small = data['small']
         db.container = data['container']
+        db.mtime = datetime.utcnow()
         db.save()
     return make_response()
 
