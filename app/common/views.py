@@ -300,3 +300,13 @@ def getpost():
             'small':db.small,
             'container':db.container
         })
+
+
+@app.route('/posts/delpost/', methods=['POST'])
+@login_required
+def delpost():
+    if request.method == 'POST' and request.is_xhr:
+        data = request.form.to_dict()
+        dbinfo = models.Post.query.get(data['id'])
+        dbinfo.delete()
+        return make_response()

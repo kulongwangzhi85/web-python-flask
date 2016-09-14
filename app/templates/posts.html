@@ -76,6 +76,7 @@
                                         </blockquote>
 
                                     </div>
+
                                     <div class="col-md-4 col-lg-4 col-sm-5">
                                         <h1>{{ post.name }}</h1>
                                         <h2>Author: <span>{{ post.get_author.username }}</span></h2>
@@ -87,8 +88,12 @@
                                                 <a href="#"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
                                             {% endif %}
                                             <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
-                                            <a href="#"><i class="fa fa-star" style="padding: 0 2px"></i></a>
-                                            <a href="#"><i class="fa fa-close" style="padding: 0 2px"></i></a>
+                                            <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
+                                            {% if post.get_author.username == g.user.username %}
+                                                <a href="#" onclick="getdelpostinfo('{{ post.id }}')" data-toggle="modal" data-target="#del-post"><i class="fa fa-close" style="padding: 0 2px"></i></a>
+                                            {% else %}
+                                                <a href="#"><i class="fa fa-close" style="padding: 0 2px"></i></a>
+                                            {% endif %}
                                         </div>
                                     </div>
 
@@ -374,6 +379,43 @@
         </div>
     </div>
 
+
+
+    <div class="modal fade" role="dialog" aria-hidden="true" data-toggle="modal" id="del-post">
+        <div class="modal-dialog">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>POST<small>DELETE</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                        <p>确定要删除: </p>
+                    <div id="del-post-info"></div>
+                    <div class="ln_solid"></div>
+                    <div class="col-md-8 col-sm-8 col-xs-10 col-xs-offset-8">
+                        <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button id="submit-del" class="btn btn-success" onclick="javascript:delpostconfirm()" data-dismiss="modal">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap -->
     <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -384,6 +426,30 @@
     <script src="/static/build/js/custom.min.js"></script>
 
     <script>
+        function delpostconfirm() {
+            var id = $('#submit-del').attr('value');
+            $.ajax({
+                type: 'post',
+                url: '{{ url_for('delpost') }}',
+                data: {'id': id},
+                success: function (data) {
+                    alert('delete is success!')
+                    window.location.reload()
+                }
+            })
+
+        }
+        function getdelpostinfo(id) {
+            $.ajax({
+                type: 'post',
+                url: '{{ url_for('getpost') }}',
+                data: {'id':id},
+                success: function (data) {
+                    $('#del-post-info').text(data['name']);
+                    $('#submit-del').attr('value', id)
+                }
+            })
+        }
         function getpost(id) {
             $.ajax({
                 url: '{{ url_for('getpost') }}',

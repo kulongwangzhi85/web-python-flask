@@ -84,13 +84,21 @@ class Post(db.Model):
     container = db.Column(db.PickleType)
     category = db.Column(db.Integer, db.ForeignKey('postcategory.id'))
 
+
     def __init__(self, *args, **kwargs):
         self.ctime = datetime.utcnow()
         self.name = kwargs['name']
 
+
     def __repr__(self):
         return self.name
 
+
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
