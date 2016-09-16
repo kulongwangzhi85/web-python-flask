@@ -16,6 +16,9 @@
 
     <!-- Custom Theme Style -->
     <link rel="stylesheet" href="{{ url_for('static', filename='build/css/custom.min.css') }}">
+
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
 {% endblock head %}
 
 {% block container %}
@@ -28,8 +31,6 @@
             {% include 'footer.html' %}
         </div>
     </div>
-    <!-- jQuery -->
-    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
