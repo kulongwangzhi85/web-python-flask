@@ -188,7 +188,7 @@ def PostCategoryManager():
             postcategory = models.PostCategory(name=form.CategoryName.data)
             postcategory.small = form.small.data
             postcategory.comment = form.comment.data
-            postcategory.url = os.path.join('/Posts/', postcategory.name)
+            postcategory.url = os.path.join('/posts/', postcategory.name)
             f = form.image.data
             if f.filename != '':
                 postcategory.image = os.path.join(app.config['WEBSITEIMAGE'], f.filename)

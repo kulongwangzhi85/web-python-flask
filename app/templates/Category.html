@@ -75,73 +75,42 @@
 
                                              <div class="row">
 
-                                                 {% if user.is_administrator() %}
-
-                                                     {% if postcategory_all is not none %}
-                                                         {% for category in postcategory_all %}
-                                                             <div class="col-md-55">
-                                                                 <div class="thumbnail">
-                                                                     <div class="image view view-first">
-                                                                         {% if category.image is not none %}
-                                                                             <img alt="image" src="{{ category.image }}" style="width: 100%; display: block;">
-                                                                         {% else %}
-                                                                             <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
-                                                                         {% endif %}
-                                                                         <div class="mask">
-                                                                             <a href="{{ category.url }}">
-                                                                                <h3>{{ category.name }}</h3>
-                                                                             </a>
+                                                 {% if postcategory_all is not none %}
+                                                     {% for category in postcategory_all %}
+                                                         <div class="col-md-55">
+                                                             <div class="thumbnail">
+                                                                 <div class="image view view-first">
+                                                                     {% if category.image is not none %}
+                                                                         <img alt="image" src="{{ category.image }}" style="width: 100%; display: block;">
+                                                                     {% else %}
+                                                                         <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
+                                                                     {% endif %}
+                                                                     <div class="mask">
+                                                                         <a href="{{ category.url }}">
+                                                                             <h3>{{ category.name }}</h3>
+                                                                         </a>
+                                                                         {% if user.is_administrator() or category.manager == g.user.id %}
                                                                              <div class="tools tools-bottom">
                                                                                  <a href="#" onclick="javascript:modifycategory('{{ category.id }}')"><i class="fa fa-pencil"></i></a>
                                                                                  <a href="#" onclick="javascript:delcategory('{{ category.id }}')"><i class="fa fa-times"></i></a>
                                                                              </div>
-                                                                         </div>
-                                                                     </div>
-                                                                     <div class="caption">
-                                                                         <a href="{{ category.url }}">
-                                                                             <p>{{ category.comment }}</p>
-                                                                         </a>
-                                                                     </div>
-                                                                 </div>
-                                                             </div>
-                                                         {% endfor %}
-                                                     {% endif %}
-
-                                                 {% else %}
-
-                                                     {% if postcategory_all is not none %}
-                                                         {% for category in postcategory_all %}
-                                                             <div class="col-md-55">
-                                                                 <div class="thumbnail">
-                                                                     <div class="image view view-first">
-                                                                         {% if category.image is not none %}
-                                                                             <img alt="image" src="{{ category.image }}" style="width: 100%; display: block;">
                                                                          {% else %}
-                                                                             <img alt="image" src="/static/images/category-cloud.jpg" style="width: 100%; display: block;">
-                                                                         {% endif %}
-                                                                         <div class="mask">
-                                                                             <a href="{{ category.url }}">
-                                                                                 <h3>{{ category.name }}</h3>
-                                                                             </a>
-{#                                                                             <h3>{{ category.name }}</h3>#}
-                                                                             <div class="tools tools-bottom" disabled="disabled">
-                                                                                 <a disabled="disabled" href="#"><i class="fa fa-pencil"></i></a>
-                                                                                 <a disabled="disabled" href="#"><i class="fa fa-times"></i></a>
+                                                                             <div class="tools tools-bottom">
+                                                                                 <a href="#" disabled="disabled"><i class="fa fa-pencil"></i></a>
+                                                                                 <a href="#" disabled="disabled"><i class="fa fa-times"></i></a>
                                                                              </div>
-                                                                         </div>
-                                                                     </div>
-                                                                     <div class="caption">
-                                                                         <a href="{{ category.url }}"></a>
-                                                                         <p>{{ category.comment }}</p>
+                                                                         {% endif %}
                                                                      </div>
                                                                  </div>
+                                                                 <div class="caption">
+                                                                     <a href="{{ category.url }}">
+                                                                         <p>{{ category.comment }}</p>
+                                                                     </a>
+                                                                 </div>
                                                              </div>
-                                                         {% endfor %}
-                                                     {% endif %}
-
+                                                         </div>
+                                                     {% endfor %}
                                                  {% endif %}
-
-
 
                                              </div>
                                          </div>
@@ -197,6 +166,7 @@
                                              {{ form.comment(class='form-control', id='Modify_Comment') }}
                                          </div>
                                      </div>
+                                     {% if g.user.is_administrator() %}
                                      <div class="form-group">
                                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Modify_Manager">Manager
                                          </label>
@@ -204,6 +174,7 @@
                                              {{ form.manager(id='Modify_Manager') }}
                                          </div>
                                      </div>
+                                     {% endif %}
                                      <div class="form-group">
                                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="image">Image</label>
                                          <div class="col-md-6 col-sm-6 col-xs-12">
