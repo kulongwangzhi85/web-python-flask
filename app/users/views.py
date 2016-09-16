@@ -67,7 +67,7 @@ def UserRegister():
 @login_required
 def confirmed(username):
     token = g.user.get_token()
-    return render_template('access_confirm.html', token=token, user=username)
+    return render_template('access_confirm.html', token=token)
 
 @app.route('/users/confirm/<username>/<token>', methods=['GET'])
 @login_required

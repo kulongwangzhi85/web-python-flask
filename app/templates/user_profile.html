@@ -58,10 +58,10 @@
                                 <div class="profile_img">
                         <div id="crop-avatar">
                           <!-- Current avatar -->
-                            {% if user.getmaster.picture is not none %}
-                                <img class="img-responsive avatar-view" src="{{ user.getmaster.picture }}" alt="Avatar" title="Change the avatar">
+                            {% if g.user.getmaster.picture is not none %}
+                                <img class="img-responsive avatar-view" src="{{ g.user.getmaster.picture }}" alt="Avatar" title="Change the avatar">
                             {% else %}
-                                <img class="img-responsive avatar-view" src="{{ setting.picture }}" alt="Avatar" title="Change the avatar">
+                                <img class="img-responsive avatar-view" src="{{ g.systemsetting.picture }}" alt="Avatar" title="Change the avatar">
                             {% endif %}
                         </div>
                       </div>
@@ -69,17 +69,17 @@
 
                       <ul class="list-unstyled user_data">
                         <li><i class="fa fa-map-marker user-profile-icon"></i>
-                            Last seen on: {{ user.last_seen }}
+                            Last seen on: {{ g.user.last_seen }}
                         </li>
 
                         <li>
                           <i class="fa fa-briefcase user-profile-icon"></i>
-                            Create Access Date: {{ user.create_datatime }}
+                            Create Access Date: {{ g.user.create_datatime }}
                         </li>
 
                         <li class="m-top-xs">
                           <i class="fa fa-external-link user-profile-icon"></i>
-                            Group: {{ user.get_role.name }}
+                            Group: {{ g.user.get_role.name }}
                         </li>
                       </ul>
                                 <input class="btn btn-upload" type="file" name="files[]" id="fileupload" multiple>

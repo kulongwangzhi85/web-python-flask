@@ -18,8 +18,33 @@
             {% include 'left_col.html' %}
             {% include 'top_navigation.html' %}
 
-            <div id="add-post-button" style="position: fixed; top: 600px; right: 30px; z-index: 999">
-                <font size="60"><i class="fa fa-edit"></i></font>
+            {% if g.user.can(07) %}
+                <div id="add-post-button" style="position: fixed; top: 600px; right: 30px; z-index: 999">
+                    <font size="60"><i class="fa fa-edit"></i></font>
+                </div>
+            {% else %}
+                <div id="remind-login" style="position: fixed; top: 600px; right: 30px; z-index: 999">
+                    <font size="60"><i class="fa fa-edit"></i></font>
+                </div>
+            {% endif %}
+
+            <div class="modal fade" aria-hidden="true" role="dialog" id="remind-login-modal">
+                <div class="modal-dialog">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <font size="4"><strong>Error</strong></font>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="x_content">
+                            <font size="6"><i class="glyphicon glyphicon-warning-sign"></i></font>
+                            <span style="margin-left: 20px"><font size="4">Please Login Befor Is Can Create Post</fonts></span>
+                            <div class="clearfix"></div>
+                            <div class="col-md-8 col-sm-8 col-xs-10 col-xs-offset-10">
+                                <button class="btn btn-danger" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div role="main" class="right_col" style="min-height: 1037.83px;">
@@ -86,14 +111,14 @@
                                         <h2>Create DataTime: <span>{{ post.ctime }}</span></h2>
                                         <h2>Update DataTime: <span>{{ post.mtime }}</span></h2>
                                         <div>
-                                            {% if post.get_author.username == g.user.username or user.is_administrator() %}
+                                            {% if post.get_author.username == g.user.username or g.user.is_administrator() %}
                                                 <a href="#" onclick="javascript:getpost('{{ post.id }}')" data-toggle="modal" data-target="#modify-post"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
                                             {% else %}
                                                 <a href="#"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
                                             {% endif %}
                                             <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
                                             <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
-                                            {% if post.get_author.username == g.user.username or user.is_administrator() %}
+                                            {% if post.get_author.username == g.user.username or g.user.is_administrator() %}
                                                 <a href="#" onclick="getdelpostinfo('{{ post.id }}')" data-toggle="modal" data-target="#del-post"><i class="fa fa-close" style="padding: 0 2px"></i></a>
                                             {% else %}
                                                 <a href="#"><i class="fa fa-close" style="padding: 0 2px"></i></a>
@@ -515,6 +540,9 @@
                 $('#add-post').modal('show')
             });
 
+            $('#remind-login').on('click', function () {
+                $('#remind-login-modal').modal('show')
+            });
 
 
             var csrftoken = $('meta[name=csrf-token]').attr('content');

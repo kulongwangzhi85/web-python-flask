@@ -103,7 +103,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: 'get',
-                url: '{{ url_for('EditProfileAboutme', username=user.username) }}',
+                url: '{{ url_for('EditProfileAboutme', username=g.user.username) }}',
                 success: function (data) {
                     $('#aboutme').html(data)
                 }
@@ -114,7 +114,7 @@
         $(document).ready(function () {
             $('#descr-btn').click(function () {
                 var about_content = $('#editor').html()
-                var about = JSON.stringify({'about': about_content})
+                var about = JSON.stringify({'about': about_content});
                 $.ajax({
                     type: 'post',
                     url: '{{ url_for('EditProfileAboutmeAjax') }}',
