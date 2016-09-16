@@ -12,7 +12,9 @@ import decorators
 from config import UPLOAD_FOLDER
 from app.common.models import SystemSettings
 from app.common.models import PostCategory
+from app.common.models import Post
 from app import app, lm, db, csrf
+
 
 
 @app.teardown_request
@@ -174,6 +176,8 @@ def EditProfiles(username):
     '''
     userdb = models.Users.query.filter_by(username=username).first()
     form = forms.EditProfileAdminForm()
+    categorydb = PostCategory.query.all()
+    postdb = Post.query.all()
     if form.validate_on_submit():
         userdb.getmaster.firstname = form.firstname.data
         userdb.getmaster.lastname = form.lastname.data
@@ -189,5 +193,5 @@ def EditProfiles(username):
     form.phone.data = userdb.getmaster.phone
     form.location.data = userdb.getmaster.location
     form.role.data = userdb.get_role.id
-    return render_template('EditUserProfile_admin.html', form=form, user=g.user, setting=g.systemsetting, userdb=userdb, title='Edit Profile %s' % username)
-
+    return render_template('EditUserProfile_admin.html', form=form, user=g.user, setting=g.systemsetting, userdb=userdb,
+                           categorydb=categorydb)

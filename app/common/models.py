@@ -50,9 +50,11 @@ class PostCategory(db.Model):
     manager = db.Column(db.Integer, db.ForeignKey('users.id'))
     comment = db.Column(db.String(64))
     post = db.relationship('Post', backref=db.backref('get_post'), lazy='dynamic')
+    clicks = db.Column(db.Integer)
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
+        self.clicks = 0
 
     def __repr__(self):
         return self.name
@@ -83,11 +85,13 @@ class Post(db.Model):
     mtime = db.Column(db.DateTime())
     container = db.Column(db.PickleType)
     category = db.Column(db.Integer, db.ForeignKey('postcategory.id'))
+    clicks = db.Column(db.Integer)
 
 
     def __init__(self, *args, **kwargs):
         self.ctime = datetime.utcnow()
         self.name = kwargs['name']
+        self.clicks = 0
 
 
     def __repr__(self):

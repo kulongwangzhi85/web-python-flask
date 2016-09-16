@@ -211,7 +211,7 @@
 
                                     <div class="profile_title">
                                         <div class="col-md-6">
-                                            <h2>User Activity Report</h2>
+                                            <h2>WebSite Statistic</h2>
                                         </div>
                                         <div class="col-md-6">
                                             <div style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED" class="pull-right" id="reportrange">
@@ -224,16 +224,16 @@
                                     <!-- end of user-activity-graph -->
                                     <div data-example-id="togglable-tabs" role="tabpanel" class="">
                                         <ul role="tablist" class="nav nav-tabs bar_tabs" id="myTab">
-                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" id="profile-tab2" role="tab" href="#tab_content3">Profile</a>
+                                            <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" id="profile-tab2" role="tab" href="#tab_content3">Profile</a>
                                             </li>
-                                            <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab" id="home-tab" href="#tab_content1">Recent Activity</a>
+                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" role="tab" id="home-tab" href="#tab_content1">Recent Activity</a>
                                             </li>
-                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" id="profile-tab" role="tab" href="#tab_content2">Projects Worked on</a>
+                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" id="profile-tab" role="tab" href="#tab_content2">Category</a>
                                             </li>
                                         </ul>
                                         <div class="tab-content" id="myTabContent">
 
-                                            <div aria-labelledby="home-tab" id="tab_content1" class="tab-pane fade active in" role="tabpanel">
+                                            <div aria-labelledby="home-tab" id="tab_content1" class="tab-pane fade " role="tabpanel">
 
                                                 <!-- start recent activity -->
                                                 <ul class="messages">
@@ -314,13 +314,24 @@
                                                     <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Project Name</th>
-                                                        <th>Client Company</th>
-                                                        <th class="hidden-phone">Hours Spent</th>
-                                                        <th>Contribution</th>
+                                                        <th>Category Name</th>
+                                                        <th>Manager</th>
+                                                        <th class="hidden-phone">Posts Count</th>
+                                                        <th>Category Statistic</th>
                                                     </tr>
                                                     </thead>
+                                                    {% set c=1 %}
                                                     <tbody>
+                                                    {% for category in categorydb %}
+                                                        <tr>
+                                                            <td>{{ c }}</td>
+                                                            <td>{{ category.name }}</td>
+                                                            <td>{{ category.get_manager.username }}</td>
+                                                            {% set post = category.post %}
+                                                            <td>{{ post.count() }}</td>
+                                                        </tr>
+                                                        {% set c = c+1 %}
+                                                    {% endfor %}
                                                     <tr>
                                                         <td>1</td>
                                                         <td>New Company Takeover Review</td>
@@ -328,7 +339,8 @@
                                                         <td class="hidden-phone">18</td>
                                                         <td class="vertical-align-mid">
                                                             <div class="progress">
-                                                                <div data-transitiongoal="35" class="progress-bar progress-bar-success" style="width: 35%;" aria-valuenow="35"></div>
+                                                                <div data-transitiongoal="35" class="progress-bar progress-bar-success"
+                                                                     style="width: 35%;" aria-valuenow="35"></div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -339,7 +351,8 @@
                                                         <td class="hidden-phone">13</td>
                                                         <td class="vertical-align-mid">
                                                             <div class="progress">
-                                                                <div data-transitiongoal="15" class="progress-bar progress-bar-danger" style="width: 15%;" aria-valuenow="15"></div>
+                                                                <div data-transitiongoal="15" class="progress-bar progress-bar-danger"
+                                                                     style="width: 15%;" aria-valuenow="15"></div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -371,7 +384,7 @@
 
                                             </div>
 
-                                            <div aria-labelledby="profile-tab" id="tab_content3" class="tab-pane fade" role="tabpanel">
+                                            <div aria-labelledby="profile-tab" id="tab_content3" class="tab-pane fade active in" role="tabpanel">
 
                                             </div>
                                         </div>

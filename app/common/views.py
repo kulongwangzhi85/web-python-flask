@@ -245,6 +245,8 @@ def PostCategoryDeleteing():
 @app.route('/posts/<string:category>/', methods=['GET', 'POST'])
 def posts(category):
     categorydb = models.PostCategory.query.filter_by(name=category).first()
+    categorydb.clicks += 1
+    categorydb.save()
     posts = categorydb.post
     return render_template('posts.html', user=g.user, setting=g.systemsetting, posts=posts, category=categorydb)
 
