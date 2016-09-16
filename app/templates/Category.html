@@ -89,7 +89,7 @@
                                                                          <a href="{{ category.url }}">
                                                                              <h3>{{ category.name }}</h3>
                                                                          </a>
-                                                                         {% if user.is_administrator() or category.manager == g.user.id %}
+                                                                         {% if g.user.is_administrator() or category.manager == g.user.id %}
                                                                              <div class="tools tools-bottom">
                                                                                  <a href="#" onclick="javascript:modifycategory('{{ category.id }}')"><i class="fa fa-pencil"></i></a>
                                                                                  <a href="#" onclick="javascript:delcategory('{{ category.id }}')"><i class="fa fa-times"></i></a>

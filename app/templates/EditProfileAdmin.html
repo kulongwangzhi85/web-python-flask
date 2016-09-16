@@ -67,21 +67,21 @@
                                                     <div class="col-sm-12">
                                                         <h4 class="brief"><i>User Preview</i></h4>
                                                         <div class="left col-xs-7">
-                                                            <h2 style="display: inline; margin-right: 10px">{{ user.username }}</h2><small>ID:{{ user.userid }}</small>
-                                                            <p style="text-overflow: ellipsis; overflow: hidden;"><strong>About: </strong><nobr> {{ user.getmaster.about_me_text }}</nobr></p>
+                                                            <h2 style="display: inline; margin-right: 10px">{{ g.user.username }}</h2><small>ID:{{ g.user.userid }}</small>
+                                                            <p style="text-overflow: ellipsis; overflow: hidden;"><strong>About: </strong><nobr> {{ g.user.getmaster.about_me_text }}</nobr></p>
                                                             <ul class="list-unstyled">
-                                                                <li><i class="fa fa-building"></i> Address: {{ user.getmaster.location }}</li>
-                                                                <li><i class="fa fa-phone"></i> Phone #: {{ user.getmaster.phone }}</li>
+                                                                <li><i class="fa fa-building"></i> Address: {{ g.user.getmaster.location }}</li>
+                                                                <li><i class="fa fa-phone"></i> Phone #: {{ g.user.getmaster.phone }}</li>
                                                                 <li><i class="fa fa-mortar-board"></i> Create Access: {{ user.create_datatime }}</li>
-                                                                <li><i class="fa fa-times"></i> Last_Seen:{{ user.last_seen }}</li>
-                                                                <li><i class="fa fa-cogs"></i> Permission:{{ user.get_role.name }}</li>
+                                                                <li><i class="fa fa-times"></i> Last_Seen:{{ g.user.last_seen }}</li>
+                                                                <li><i class="fa fa-cogs"></i> Permission:{{ g.user.get_role.name }}</li>
                                                             </ul>
                                                         </div>
                                                         <div class="right col-xs-5 text-center">
-                                                            {% if user.getmaster.picture is not none %}
-                                                                <img class="img-circle img-responsive" alt="#" src="{{ user.getmaster.picture }}">
+                                                            {% if g.user.getmaster.picture is not none %}
+                                                                <img class="img-circle img-responsive" alt="#" src="{{ g.user.getmaster.picture }}">
                                                             {% else %}
-                                                                <img class="img-circle img-responsive" alt="#" src="{{ setting.picture }}">
+                                                                <img class="img-circle img-responsive" alt="#" src="{{ g.systemsetting.picture }}">
                                                             {% endif %}
                                                         </div>
                                                     </div>

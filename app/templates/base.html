@@ -3,12 +3,12 @@
 <head>
     {% block head %}
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="{{ setting.icon }}" rel="shortcut icon">
+        <link href="{{ g.systemsetting.icon }}" rel="shortcut icon">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% if setting.title %}
-        <title>{{ setting.title }}</title>
+    {% if g.systemsetting.title %}
+        <title>{{ g.systemsetting.title }}</title>
         {% else %}
         <title>Welcome to Python-Flask</title>
     {% endif %}

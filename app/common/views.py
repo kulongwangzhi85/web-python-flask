@@ -16,28 +16,27 @@ from . import forms
 @app.route('/')
 @app.route('/index')
 def index():
-    user = g.user
-    return render_template('index.html', user=user, setting=g.systemsetting)
+    return render_template('index.html')
 
 
 @app.errorhandler(404)
 def page_404(e):
-    return render_template('404.html', setting=g.systemsetting), 404
+    return render_template('404.html'), 404
 
 
 @app.errorhandler(403)
-def page_404(e):
-    return render_template('403.html', setting=g.systemsetting), 403
+def page_403(e):
+    return render_template('403.html'), 403
 
 
 @app.errorhandler(500)
-def page_404(e):
-    return render_template('500.html', setting=g.systemsetting), 500
+def page_500(e):
+    return render_template('500.html'), 500
 
 
 @app.route('/help/', methods=['GET'])
 def page_help():
-    return render_template('help.html', setting=g.systemsetting)
+    return render_template('help.html')
 
 @app.route('/test/')
 @login_required
@@ -48,8 +47,7 @@ def admin_only():
     用于测试视图,方便使用
 
     """
-    user = g.user
-    return render_template('test.html', user=user, setting=g.systemsetting)
+    return render_template('test.html')
 
 
 @app.route('/test1/')
@@ -62,7 +60,7 @@ def user_required():
 
     """
     user = g.user
-    return render_template('test.html', user=user, setting=g.systemsetting)
+    return render_template('test.html')
 
 
 @app.route('/websitemanager/', methods=['GET', 'POST'])
@@ -90,7 +88,7 @@ def WebsiteManager():
     form.websitename.data = g.systemsetting.websitename
     form.about_website.data = g.systemsetting.about_website
     form.title.data = g.systemsetting.title
-    return render_template('WebSite_Manager.html', user=g.user, setting=g.systemsetting, form=form)
+    return render_template('WebSite_Manager.html', form=form)
 
 
 @app.route('/websitemanager/image/', methods=['POST'])
@@ -158,7 +156,7 @@ def PostCategory():
 
     form = forms.PostCategoryManager()
     postcategory_all = models.PostCategory.query.order_by(models.PostCategory.name).all()
-    return render_template('Category.html', form=form, user=g.user, setting=g.systemsetting, postcategory_all=postcategory_all)
+    return render_template('Category.html', form=form, postcategory_all=postcategory_all)
 
 
 @app.route('/CategoryManager/', methods=['GET', 'POST'])
@@ -195,7 +193,7 @@ def PostCategoryManager():
                 f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
             postcategory.manager = form.manager.data
             postcategory.save()
-    return render_template('PostCategory_Manager.html', form=form, user=g.user, setting=g.systemsetting, postcategory_all=postcategory_all)
+    return render_template('PostCategory_Manager.html', form=form, postcategory_all=postcategory_all)
 
 
 @app.route('/CategoryManagerModify/', methods=['POST'])
@@ -248,7 +246,7 @@ def posts(category):
     categorydb.clicks += 1
     categorydb.save()
     posts = categorydb.post
-    return render_template('posts.html', user=g.user, setting=g.systemsetting, posts=posts, category=categorydb)
+    return render_template('posts.html', posts=posts, category=categorydb)
 
 
 @app.route('/posts/add/', methods=['POST'])

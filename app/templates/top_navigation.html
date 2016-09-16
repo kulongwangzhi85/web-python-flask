@@ -9,17 +9,17 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      {% if user.is_authenticated and user.getmaster.picture is not none %}
-                          <img src="{{ user.getmaster.picture }}" alt="">{{ user.username }}
+                      {% if g.user.is_authenticated and g.user.getmaster.picture is not none %}
+                          <img src="{{ g.user.getmaster.picture }}" alt="">{{ g.user.username }}
                       {% else %}
-                          <img src="{{ setting.picture }}" alt="">{{ user.username }}
+                          <img src="{{ g.systemsetting.picture }}" alt="">{{ g.user.username }}
                       {% endif %}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                      {% if user.is_authenticated %}
+                      {% if g.user.is_authenticated %}
                           <li>
-                              <a href="{{ url_for('UserProfile', username=user.username) }}"> Profile</a>
+                              <a href="{{ url_for('UserProfile', username=g.user.username) }}">Profile</a>
                           </li>
                       {% else %}
                           <li class="disabled">
@@ -28,7 +28,7 @@
                       {% endif %}
                     <li><a href="{{ url_for('page_help') }}">Help</a></li>
                       <li>
-                          {% if user.is_authenticated %}
+                          {% if g.user.is_authenticated %}
                               <a href="{{ url_for('UserLogout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                           {% else %}
                               <a href="{{ url_for('UserLogin') }}"><i class="fa fa-sign-out pull-right"></i> Log In</a>
