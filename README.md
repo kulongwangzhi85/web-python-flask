@@ -20,7 +20,8 @@
 5. 学习cookie,session的使用
 6. 修改代码符合PEP8要求
 7. 使用sphinx生成简单文档
-7. 未想到......
+8. 学习json数据格式的最佳方法
+9. 未想到......
 
 ## 第三阶段
 1. 使用Flask-bluepring和restful,重构代码
