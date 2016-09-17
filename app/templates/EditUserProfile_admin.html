@@ -253,7 +253,9 @@
                                                             <br>
                                                             <p class="url">
                                                                 <span data-icon="" aria-hidden="true" class="fs1 text-info"></span>
-                                                                <a href="#"><i class="fa fa-paperclip"></i> Author: <span id="post-author"></span></a>
+                                                                <a href="#"><i class="fa fa-user"></i><span id="post-author" style="margin: 0 5px"></span></a>
+                                                                <i class="fa fa-edit"><span id="post-ctime" style="margin: 0 5px"></span></i>
+                                                                <i class="fa fa-eye"><span id="post-clicks" style="margin: 0 5px"></span></i>
                                                             </p>
                                                         </div>
                                                     </li>
@@ -365,6 +367,7 @@
                     var row = $('#post-li').clone();
                     row.find('#post-title').text(n.name);
                     row.find('#post-clicks').text(n.clicks);
+                    row.find('#post-ctime').text(n.ctime);
                     row.find('#post-container').html(n.container);
                     if (n.picture !== null) {
                         row.find('#post-picture').attr('src', n.picture);

@@ -2,6 +2,7 @@
 
 
 import os
+import copy
 from datetime import datetime
 
 from flask import render_template, g, request, jsonify, make_response, json
@@ -330,5 +331,5 @@ def getprofilepost():
         postdict['category'] = posts.category
         postdict['container'] = posts.container
         postdict['picture'] = posts.get_author.getmaster.picture
-        postlist.append(postdict)
+        postlist.append(copy.deepcopy(postdict))
     return jsonify(postlist)

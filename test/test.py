@@ -5,6 +5,7 @@ sys.path.append('..')
 
 from app import db,app
 from config import basedir
+
 import unittest
 
 class SQLALchemyTest(unittest.TestCase):
