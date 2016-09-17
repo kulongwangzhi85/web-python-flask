@@ -230,7 +230,7 @@
                                         <ul role="tablist" class="nav nav-tabs bar_tabs" id="myTab">
                                             <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" id="profile-tab2" role="tab" href="#tab_content3">Profile</a>
                                             </li>
-                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" role="tab" id="home-tab" href="#tab_content1">Recent Activity</a>
+                                            <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" role="tab" id="home-tab" href="#tab_content1">All Posts</a>
                                             </li>
                                             <li class="" role="presentation"><a aria-expanded="false" data-toggle="tab" id="profile-tab" role="tab" href="#tab_content2">Category</a>
                                             </li>
@@ -240,68 +240,20 @@
                                             <div aria-labelledby="home-tab" id="tab_content1" class="tab-pane fade " role="tabpanel">
 
                                                 <!-- start recent activity -->
-                                                <ul class="messages">
-                                                    <li>
-                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
+                                                <ul class="messages" id="post-ul">
+                                                    <li id="post-li" style="display: none">
+                                                        <img alt="Avatar" class="avatar" id="post-picture" src="">
                                                         <div class="message_date">
-                                                            <h3 class="date text-info">24</h3>
-                                                            <p class="month">May</p>
+                                                            <h3 class="date text-info" id="post-clicks"></h3>
+                                                            <p class="month">Count</p>
                                                         </div>
                                                         <div class="message_wrapper">
-                                                            <h4 class="heading">Desmond Davison</h4>
-                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                                            <h4 class="heading" id="post-title"></h4>
+                                                            <blockquote class="message" id="post-container"></blockquote>
                                                             <br>
                                                             <p class="url">
                                                                 <span data-icon="" aria-hidden="true" class="fs1 text-info"></span>
-                                                                <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
-                                                            </p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
-                                                        <div class="message_date">
-                                                            <h3 class="date text-error">21</h3>
-                                                            <p class="month">May</p>
-                                                        </div>
-                                                        <div class="message_wrapper">
-                                                            <h4 class="heading">Brian Michaels</h4>
-                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                                            <br>
-                                                            <p class="url">
-                                                                <span data-icon="" aria-hidden="true" class="fs1"></span>
-                                                                <a data-original-title="" href="#">Download</a>
-                                                            </p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
-                                                        <div class="message_date">
-                                                            <h3 class="date text-info">24</h3>
-                                                            <p class="month">May</p>
-                                                        </div>
-                                                        <div class="message_wrapper">
-                                                            <h4 class="heading">Desmond Davison</h4>
-                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                                            <br>
-                                                            <p class="url">
-                                                                <span data-icon="" aria-hidden="true" class="fs1 text-info"></span>
-                                                                <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
-                                                            </p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <img alt="Avatar" class="avatar" src="images/img.jpg">
-                                                        <div class="message_date">
-                                                            <h3 class="date text-error">21</h3>
-                                                            <p class="month">May</p>
-                                                        </div>
-                                                        <div class="message_wrapper">
-                                                            <h4 class="heading">Brian Michaels</h4>
-                                                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                                            <br>
-                                                            <p class="url">
-                                                                <span data-icon="" aria-hidden="true" class="fs1"></span>
-                                                                <a data-original-title="" href="#">Download</a>
+                                                                <a href="#"><i class="fa fa-paperclip"></i> Author: <span id="post-author"></span></a>
                                                             </p>
                                                         </div>
                                                     </li>
@@ -394,6 +346,37 @@
     <!-- bootstrap-daterangepicker -->
     <script>
     $(document).ready(function () {
+        var csrftoken = $('meta[name=csrf-token]').attr('content');
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                }
+            }
+
+        });
+
+        $.ajax({
+            type:'post',
+            url:'{{ url_for('getprofilepost') }}',
+            success: function (data) {
+                console.log(data)
+                $.each(data, function (i, n) {
+                    var row = $('#post-li').clone();
+                    row.find('#post-title').text(n.name);
+                    row.find('#post-clicks').text(n.clicks);
+                    row.find('#post-container').html(n.container);
+                    if (n.picture !== null) {
+                        row.find('#post-picture').attr('src', n.picture);
+                    }else {
+                        row.find('#post-picture').attr('src', '{{ g.systemsetting.picture }}')
+                    }
+                    row.find('#post-author').html(n.author);
+                    row.appendTo('#post-ul').css('display', 'block');
+                })
+            }
+        });
+
         $.ajax({
             type: 'get',
             url: '{{ url_for('EditProfileAboutme', username=g.user.username) }}',

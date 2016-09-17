@@ -312,3 +312,23 @@ def delpost():
         dbinfo = models.Post.query.get(data['id'])
         dbinfo.delete()
         return make_response()
+
+
+@app.route('/posts/getprofilepost/', methods=['POST'])
+def getprofilepost():
+    postdb = models.Post.query.all()
+    postlist = []
+    postdict = {}
+    for posts in postdb:
+        postdict['id'] = posts.id
+        postdict['name'] = posts.name
+        postdict['small'] = posts.small
+        postdict['clicks'] = posts.clicks
+        postdict['author'] = posts.get_author.username
+        postdict['ctime'] = posts.ctime
+        postdict['mtime'] = posts.mtime
+        postdict['category'] = posts.category
+        postdict['container'] = posts.container
+        postdict['picture'] = posts.get_author.getmaster.picture
+        postlist.append(postdict)
+    return jsonify(postlist)
