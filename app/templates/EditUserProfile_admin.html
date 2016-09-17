@@ -335,7 +335,11 @@
                                                             <td>{{ post.count() }}</td>
                                                             <td class="vertical-align-mid">
                                                                 <div class="progress">
-                                                                    <div data-transitiongoal="{{ category.clicks }}" class="progress-bar progress-bar-success" style="width: 15%;" aria-valuenow="{{ category.clicks }}"></div>
+                                                                    {% set category_count = category.clicks %}
+                                                                    <div data-transitiongoal="{{ category_count }}"
+                                                                         class="progress-bar progress-bar-success"
+                                                                         style="width: {{ category_count }}%;"
+                                                                         aria-valuenow="{{ category_count }}"></div>
                                                                 </div>
                                                             </td>
                                                         </tr>
