@@ -362,7 +362,6 @@
             type:'post',
             url:'{{ url_for('getprofilepost') }}',
             success: function (data) {
-                console.log(data)
                 $.each(data, function (i, n) {
                     var row = $('#post-li').clone();
                     row.find('#post-title').text(n.name);
