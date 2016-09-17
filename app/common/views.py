@@ -9,6 +9,7 @@ from flask import render_template, g, request, jsonify, make_response, json
 from flask_login import login_required
 
 from app import app, db
+from app import cache
 from app.users import decorators
 from . import models
 from . import forms
@@ -16,26 +17,31 @@ from . import forms
 
 @app.route('/')
 @app.route('/index')
+@cache.cached(timeout=10)
 def index():
     return render_template('index.html')
 
 
 @app.errorhandler(404)
+@cache.cached(timeout=10)
 def page_404(e):
     return render_template('404.html'), 404
 
 
 @app.errorhandler(403)
+@cache.cached(timeout=10)
 def page_403(e):
     return render_template('403.html'), 403
 
 
 @app.errorhandler(500)
+@cache.cached(timeout=10)
 def page_500(e):
     return render_template('500.html'), 500
 
 
 @app.route('/help/', methods=['GET'])
+@cache.cached(timeout=10)
 def page_help():
     return render_template('help.html')
 
@@ -60,12 +66,12 @@ def user_required():
     用于测试视图,方便使用
 
     """
-    user = g.user
     return render_template('test.html')
 
 
 @app.route('/websitemanager/', methods=['GET', 'POST'])
 @login_required
+@cache.cached(timeout=10)
 @decorators.admin_required
 def WebsiteManager():
     """
@@ -147,6 +153,7 @@ def WebsiteIcon():
 
 
 @app.route('/Category/', methods=['GET', 'POST'])
+@cache.cached(timeout=10)
 def PostCategory():
 
     """
@@ -162,6 +169,7 @@ def PostCategory():
 
 @app.route('/CategoryManager/', methods=['GET', 'POST'])
 @login_required
+@cache.cached(timeout=10)
 @decorators.admin_required
 def PostCategoryManager():
 
@@ -242,6 +250,7 @@ def PostCategoryDeleteing():
 
 
 @app.route('/posts/<string:category>/', methods=['GET', 'POST'])
+@cache.cached(timeout=10)
 def posts(category):
     categorydb = models.PostCategory.query.filter_by(name=category).first()
     categorydb.clicks += 1

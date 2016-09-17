@@ -13,7 +13,7 @@ from config import UPLOAD_FOLDER
 from app.common.models import SystemSettings
 from app.common.models import PostCategory
 from app.common.models import Post
-from app import app, lm, db, csrf
+from app import app, lm, db, csrf, cache
 
 
 
@@ -50,6 +50,7 @@ def UserLogin():
 
 
 @app.route('/users/register/', methods=['GET', 'POST'])
+@cache.cached(timeout=10)
 def UserRegister():
     form = forms.UserRegisterForm()
     if form.validate_on_submit():
@@ -64,6 +65,7 @@ def UserRegister():
     return render_template('user_register.html', form=form)
 
 @app.route('/users/confirmed/<username>')
+@cache.cached(timeout=10)
 @login_required
 def confirmed(username):
     token = g.user.get_token()
@@ -82,6 +84,7 @@ def confirm(username,token):
 
 @app.route('/user/<username>/', methods=['GET', 'POST'])
 @login_required
+@cache.cached(timeout=10)
 def UserProfile(username):
     form = forms.UserProfileForm()
     if form.validate_on_submit():
@@ -107,6 +110,7 @@ def UserLogout():
 
 @app.route('/users/profile/', methods=['GET'])
 @login_required
+@cache.cached(timeout=10)
 @decorators.admin_required
 def EditProfileAdmin():
 
@@ -129,6 +133,7 @@ def websiteinfocount():
 
 
 @app.route('/api/v1.0/users/aboutme', methods=['GET', 'POST'])
+@cache.cached(timeout=10)
 def EditProfileAboutmeAjax():
     if request.method == 'POST':
         contextHtml = request.form.get('about')
@@ -168,6 +173,7 @@ def upload_file():
 
 @app.route('/users/edit/profiles/<username>', methods=['GET', 'POST'])
 @login_required
+@cache.cached(timeout=10)
 @decorators.admin_required
 def EditProfiles(username):
     '''

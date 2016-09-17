@@ -10,3 +10,5 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 UPLOAD_FOLDER = os.path.join(basedir, 'app/static/images/')
 WEBSITEIMAGE = '/static/images/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+CACHE_DEFAULT_TIMEOUT = 60
+CACHE_DIR = os.path.join(basedir, 'cached')
