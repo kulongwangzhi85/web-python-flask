@@ -14,7 +14,7 @@ class SQLALchemyTest(unittest.TestCase):
 
     def test_createusers(self):
         for i in range(20):
-            u = models.Users(username='guocl%d' % i, email='guocl%d@localhost.com' % i, password='aaaaaa')
+            u = models.Users(username='guocl%02d' % i, email='guocl%02d@localhost.com' % i, password='aaaaaa')
             u.save()
 
 
