@@ -4,6 +4,7 @@
 import os
 import copy
 from datetime import datetime
+from purifier.purifier import HTMLPurifier
 
 from flask import render_template, g, request, jsonify, make_response, json
 from flask_login import login_required
@@ -252,11 +253,50 @@ def PostCategoryDeleteing():
 @app.route('/posts/<string:category>/', methods=['GET', 'POST'])
 @cache.cached(timeout=10)
 def posts(category):
+
+    """
+    此方法是提供posts页面的方法
+    此方法和模型有些不够好的,只能用于测试使用,
+    在第二步骤中,需要对模型进行分区
+    :param category: 指定post分类名称,类型: string
+    :return:
+    """
     categorydb = models.PostCategory.query.filter_by(name=category).first()
     categorydb.clicks += 1
     categorydb.save()
     posts = categorydb.post
     return render_template('posts.html', posts=posts, category=categorydb)
+
+@app.route('/posts/getposts/', methods=['POST'])
+def getposts():
+
+    """
+    用于posts.html页面中ajax获取posts数据
+    :return: json数据
+    """
+
+    purifier = HTMLPurifier(remove_entity=True)
+    if request.method == 'POST' and request.is_xhr:
+        category = request.form.to_dict()
+        categoryname = category['category'].split('/')[-2]
+        categorydb = models.PostCategory.query.filter_by(name=categoryname).first()
+        postsdb = categorydb.post
+        postdblist = []
+        postdbdict = {}
+        for post in postsdb:
+            postdbdict['id'] = post.id
+            postdbdict['name'] = post.name
+            postdbdict['small'] = post.small
+            postdbdict['ctime'] = post.ctime
+            postdbdict['mtime'] = post.mtime
+            postdbdict['author'] = post.get_author.username
+            postdbdict['clicks'] = post.clicks
+            postdbdict['category'] = categoryname
+            containerhtml = post.container
+            postdbdict['container'] = purifier.feed(containerhtml)
+            postdblist.append(copy.deepcopy(postdbdict))
+        return jsonify(postdblist), 200
+
 
 
 @app.route('/posts/add/', methods=['POST'])

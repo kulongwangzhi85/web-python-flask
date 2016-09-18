@@ -89,56 +89,52 @@
                                     </ul>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div class="x_content">
+                                <div class="x_content" id="post-content">
+                                    <div id="post-clone" style="display: none;">
+                                        <div class="col-md-8 col-lg-8 col-sm-7">
+                                            <!-- blockquote -->
+                                            <blockquote class="blockquote-reverse" style="padding-top: 30px">
+                                                <p id="postcontainer_p" style="min-height: 100px"></p>
+                                                <footer>
+                                                    <span>Small:</span>
+                                                    <cite title="Source Title" id="post-small"></cite>
+                                                </footer>
+                                            </blockquote>
 
-                                    {% for post in posts %}
-                                    <div class="col-md-8 col-lg-8 col-sm-7">
-                                        <!-- blockquote -->
+                                        </div>
 
-                                        <blockquote class="blockquote-reverse" style="padding-top: 30px">
-                                            <p id="postcontainer_p" style="min-height: 100px">{{ post.container }}</p>
-                                            <footer>
-                                                <span>Small:</span>
-                                                <cite title="Source Title">{{ post.small }}</cite>
-                                            </footer>
-                                        </blockquote>
+                                        <div class="col-md-4 col-lg-4 col-sm-5">
+                                            <h1 id="post-name"></h1>
+                                            <h2>Author: <span id="post-author"></span></h2>
+                                            <h2>Create DataTime: <span id="post-ctime"></span></h2>
+                                            <h2>Update DataTime: <span id="post-mtime"></span></h2>
 
-                                    </div>
+                                            <div>
+                                                <a id="post-getpost" href="#" data-toggle="modal">
+                                                    <i class="fa fa-edit" style="padding: 0 2px"></i>
+                                                </a>
+                                                <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
+                                                <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
 
-                                    <div class="col-md-4 col-lg-4 col-sm-5">
-                                        <h1>{{ post.name }}</h1>
-                                        <h2>Author: <span>{{ post.get_author.username }}</span></h2>
-                                        <h2>Create DataTime: <span>{{ post.ctime }}</span></h2>
-                                        <h2>Update DataTime: <span>{{ post.mtime }}</span></h2>
-                                        <div>
-                                            {% if post.get_author.username == g.user.username or g.user.is_administrator() %}
-                                                <a href="#" onclick="javascript:getpost('{{ post.id }}')" data-toggle="modal" data-target="#modify-post"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
-                                            {% else %}
-                                                <a href="#"><i class="fa fa-edit" style="padding: 0 2px"></i></a>
-                                            {% endif %}
-                                            <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
-                                            <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
-                                            {% if post.get_author.username == g.user.username or g.user.is_administrator() %}
-                                                <a href="#" onclick="getdelpostinfo('{{ post.id }}')" data-toggle="modal" data-target="#del-post"><i class="fa fa-close" style="padding: 0 2px"></i></a>
-                                            {% else %}
-                                                <a href="#"><i class="fa fa-close" style="padding: 0 2px"></i></a>
-                                            {% endif %}
+                                                <a id="post-getdelpostinfo" href="#"  data-toggle="modal">
+                                                    <i class="fa fa-close" style="padding: 0 2px"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+
+                                        <div class="col-md-12">
+                                            <h4>Labels and badges</h4>
+                                            <span class="label label-default">Default</span>
+                                            <span class="label label-primary">Primary</span>
+                                            <span class="label label-success">Success</span>
+                                            <span class="label label-info">Info</span>
+                                            <span class="label label-warning">Warning</span>
+                                            <span class="label label-danger">Danger</span>
+                                            <span class="badge badge-success">42</span>
                                         </div>
                                     </div>
-
-                                    <div class="clearfix"></div>
-
-                                    <div class="col-md-12">
-                                        <h4>Labels and badges</h4>
-                                        <span class="label label-default">Default</span>
-                                        <span class="label label-primary">Primary</span>
-                                        <span class="label label-success">Success</span>
-                                        <span class="label label-info">Info</span>
-                                        <span class="label label-warning">Warning</span>
-                                        <span class="label label-danger">Danger</span>
-                                        <span class="badge badge-success">42</span>
-                                    </div>
-                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -554,11 +550,36 @@
                 }
 
             });
+
             $('#add-post').on('hidden.bs.modal', function () {
                 $('input#postTitle').val('');
                 $('#postSmall').val('');
                 $('#post_editor').html('')
-            })
+            });
+
+            var pagepath = window.location.pathname;
+            $.ajax({
+                type: 'post',
+                url: '{{ url_for("getposts") }}',
+                data: {'category':pagepath},
+                success: function (msg) {
+                    $.each(msg, function (i, n) {
+                        var row = $('#post-clone').clone();
+                        row.find('#post-name').text(n.name);
+                        row.find('#post-author').text(n.author);
+                        row.find('#post-ctime').text(n.ctime);
+                        row.find('#post-mtime').text(n.mtime);
+                        row.find('#post-small').text(n.small);
+                        row.find('#postcontainer_p').text(n.container);
+                        if ( n.author == '{{ g.user.username }}' || '{{ g.user.is_administrator() }}' == 'True' ) {
+                            row.find('#post-getpost').attr('onclick', 'getpost(' + n.id + ')').attr('data-target', "#modify-post");
+                            row.find('#post-getdelpostinfo').attr('onclick', 'getdelpostinfo(' + n.id + ')').attr('data-target', "#del-post");
+                        }
+
+                        row.appendTo('#post-content').css('display', 'block')
+                    })
+                }
+            });
         })
     </script>
 {% endblock container %}
