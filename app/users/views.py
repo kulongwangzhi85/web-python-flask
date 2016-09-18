@@ -137,7 +137,16 @@ def websiteinfocount():
 def EditProfileAboutmeAjax():
     if request.method == 'POST':
         contextHtml = request.form.get('about')
-        g.user.getmaster.about_me=contextHtml
+        purifierDIV = HTMLPurifier({
+            'p': ['*'],
+            'br': ['*'],
+            'string': ['*'],
+            'span': ['*'],
+            'li': ['*'],
+            'ul': ['*'],
+            'label': ['*']
+        })
+        g.user.getmaster.about_me=purifierDIV.feed(contextHtml)
         purifier = HTMLPurifier(remove_entity=True)
         g.user.getmaster.about_me_text=purifier.feed(contextHtml)
         g.user.getmaster.save()
