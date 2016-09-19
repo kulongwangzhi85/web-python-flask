@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding:utf8 -*-
 
 import sys
 sys.path.append('..')
@@ -8,7 +9,9 @@ from app.users import models
 import unittest
 
 class SQLALchemyTest(unittest.TestCase):
-
+    """
+    用于创建大量用户
+    """
     def tearDown(self):
         db.session.remove()
 
