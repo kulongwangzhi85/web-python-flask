@@ -382,3 +382,26 @@ def getprofilepost():
         postdict['picture'] = posts.get_author.getmaster.picture
         postlist.append(copy.deepcopy(postdict))
     return jsonify(postlist)
+
+
+@app.route('/posts/<string:category>/<int:postid>/', methods=['GET', 'POST'])
+def post(category, postid):
+    """
+    用于post的数据获取
+    :param: category, postname
+    :return:  post.html, post
+    """
+    post = models.Post.query.get(postid)
+    if request.is_xhr and request.method == 'POST':
+        postdict = {}
+        postdict['id'] = post.id
+        postdict['name'] = post.name
+        postdict['small'] = post.small
+        postdict['category'] = post.get_post.name
+        postdict['ctime'] = post.ctime
+        postdict['mtime'] = post.mtime
+        postdict['picture'] = post.get_author.getmaster.picture
+        postdict['author'] = post.get_author.username
+        postdict['container'] = post.container
+        return jsonify(postdict)
+    return render_template('post.html')

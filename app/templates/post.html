@@ -1,0 +1,430 @@
+{% extends 'base.html' %}
+{% block head %}
+    {{ super() }}
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="/static/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <link href="/static/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <link href="/static/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <link href="/static/vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block container %}
+    {{ super() }}
+    <div class="container body">
+        <div class="main_container">
+            {% include 'left_col.html' %}
+            {% include 'top_navigation.html' %}
+
+
+
+            <div role="main" class="right_col" style="min-height: 1037.83px;">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <a id="category-url">
+                                <p id="category" style="display: inline;font-size: 20px"></p>
+                            </a>
+                            >
+                            <small id="categorysubpage" style="font-size: 19px"></small>
+                        </div>
+
+                        <div class="title_right">
+                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Search for..." class="form-control">
+                                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default">Go!</button>
+                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-wrench"></i></a>
+                                            <ul role="menu" class="dropdown-menu">
+                                                <li><a href="#">Settings 1</a>
+                                                </li>
+                                                <li><a href="#">Settings 2</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content" id="post-content">
+                                    <div>
+                                        <div class="col-md-8 col-lg-8 col-sm-7">
+                                            <!-- blockquote -->
+                                            <blockquote class="blockquote-reverse" style="padding-top: 30px">
+                                                <p id="postcontainer_p"></p>
+                                                <footer>
+                                                    <span id="post-small"></span>
+                                                    <cite title="Source Title" id="post-small"></cite>
+                                                </footer>
+                                            </blockquote>
+
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-sm-5">
+
+                                            <a id="post-url">
+                                                <h1 id="post-name"></h1>
+                                            </a>
+                                            <img src="" alt="" id="author-picture">
+                                            <h2>Author: <span id="post-author"></span></h2>
+                                            <h2>Create DataTime: <span id="post-ctime"></span></h2>
+                                            <h2>Update DataTime: <span id="post-mtime"></span></h2>
+
+                                            <div>
+                                                <a id="post-getpost" href="#" data-toggle="modal">
+                                                    <i class="fa fa-edit" style="padding: 0 2px"></i>
+                                                </a>
+                                                <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
+                                                <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
+
+                                                <a id="post-getdelpostinfo" href="#"  data-toggle="modal">
+                                                    <i class="fa fa-close" style="padding: 0 2px"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+
+                                        <div class="col-md-12" style="margin: 0 0 20px 0;">
+                                            <h4>Labels and badges</h4>
+                                            <span class="label label-default">Default</span>
+                                            <span class="label label-primary">Primary</span>
+                                            <span class="label label-success">Success</span>
+                                            <span class="label label-info">Info</span>
+                                            <span class="label label-warning">Warning</span>
+                                            <span class="label label-danger">Danger</span>
+                                            <span class="badge badge-success">42</span>
+                                            <div style="height: 1px; margin-top: 20px; background-color: rgb(200,200,200)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade bs-example-modal-lg" role="dialog" aria-hidden="true" data-toggle="modal" id="modify-post">
+                <div class="modal-dialog">
+                    <div class="x_panel" style="width: 150%">
+
+                        <div class="x_title">
+                            <h2>POST<small>MODIFY</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br />
+                            <form class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postTitle">Title</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input class="form-control" id="postTitle" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postSmall">Small</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input class="form-control" id="postSmall">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-1 col-sm-1 col-xs-10" for="postTitle">Container</label>
+
+                                    <div class="col-md-11 col-sm-11 col-xs-12">
+
+                                        <div data-target="#editor" data-role="editor-toolbar" class="btn-toolbar editor">
+
+                                            <div class="btn-group">
+                                                <a title="" data-toggle="dropdown" class="btn dropdown-toggle" data-original-title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a data-edit="fontSize 5">
+                                                            <p style="font-size:17px">Huge</p>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a data-edit="fontSize 3">
+                                                            <p style="font-size:14px">Normal</p>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a data-edit="fontSize 1">
+                                                            <p style="font-size:11px">Small</p>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <a title="" data-edit="bold" class="btn" data-original-title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                                                <a title="" data-edit="italic" class="btn" data-original-title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                                                <a title="" data-edit="strikethrough" class="btn" data-original-title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                                                <a title="" data-edit="underline" class="btn" data-original-title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <a title="" data-edit="insertunorderedlist" class="btn" data-original-title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                                                <a title="" data-edit="insertorderedlist" class="btn" data-original-title="Number list"><i class="fa fa-list-ol"></i></a>
+                                                <a title="" data-edit="outdent" class="btn" data-original-title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                                                <a title="" data-edit="indent" class="btn" data-original-title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <a title="" data-edit="justifyleft" class="btn" data-original-title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                                                <a title="" data-edit="justifycenter" class="btn" data-original-title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                                                <a title="" data-edit="justifyright" class="btn" data-original-title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                                                <a title="" data-edit="justifyfull" class="btn" data-original-title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <a title="" data-toggle="dropdown" class="btn dropdown-toggle" data-original-title="Hyperlink"><i class="fa fa-link"></i></a>
+                                                <div class="dropdown-menu input-append">
+                                                    <input type="text" data-edit="createLink" placeholder="URL" class="span2">
+                                                    <button type="button" class="btn">Add</button>
+                                                </div>
+                                                <a title="" data-edit="unlink" class="btn" data-original-title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <a id="pictureBtn" title="" class="btn" data-original-title="Insert picture (or just drag &amp; drop)"><i class="fa fa-picture-o"></i></a>
+                                                <input type="file" data-edit="insertImage" data-target="#pictureBtn" data-role="magic-overlay" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 41px; height: 34px;">
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <a title="" data-edit="undo" class="btn" data-original-title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                                                <a title="" data-edit="redo" class="btn" data-original-title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <div contenteditable="true" class="editor-wrapper placeholderText" id="post_editor"></div>
+                                    </div>
+
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-sm-8 col-xs-10 col-xs-offset-8">
+                                        <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                        <button id="submit" class="btn btn-success" onclick="javascript:modifypost()" data-dismiss="modal">Submit</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal fade" role="dialog" aria-hidden="true" data-toggle="modal" id="del-post">
+                <div class="modal-dialog">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>POST<small>DELETE</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <p>确定要删除: </p>
+                            <div id="del-post-info"></div>
+                            <div class="ln_solid"></div>
+                            <div class="col-md-8 col-sm-8 col-xs-10 col-xs-offset-8">
+                                <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                <button id="submit-del" class="btn btn-success" onclick="javascript:delpostconfirm()" data-dismiss="modal">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div
+
+
+            {% include 'footer.html' %}
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/js/moment/moment.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+
+    <script>
+        function delpostconfirm() {
+            var id = $('#submit-del').attr('value');
+            var backurl = $('#category-url').attr('href');
+            $.ajax({
+                type: 'post',
+                url: '{{ url_for('delpost') }}',
+                data: {'id': id},
+                success: function (data) {
+                    alert('delete is success!');
+                    window.history.back(-1)
+                }
+            })
+
+        }
+
+        function modifypost() {
+            var id = $('#modify-post button#submit').attr('value');
+            var name = $('#modify-post #postTitle').val();
+            var postcontainer = $('#modify-post #post_editor').html();
+            var small = $('#modify-post #postSmall').val();
+            $.ajax({
+                url: '{{ url_for('modifypost') }}',
+                type: 'post',
+                data: {
+                    'id': id,
+                    'name': name,
+                    'container': postcontainer,
+                    'small': small
+                },
+                success: function (data) {
+                    window.location.reload()
+
+                }
+            });
+        }
+
+
+
+        $(window).ready(function () {
+            var csrftoken = $('meta[name=csrf-token]').attr('content');
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+
+            });
+
+            pagepath = window.location.pathname;
+            $.ajax({
+                url: pagepath,
+                type: 'post',
+                datatype: 'json',
+                success: function (msg) {
+                    $('#category').text(msg.category);
+                    $('#author-picture').attr('src', msg.picture);
+                    $('#postcontainer_p').html(msg.container);
+                    $('#categorysubpage').text(msg.name);
+                    $('#post-name').text(msg.name);
+                    $('#post-author').text(msg.author);
+                    $('#post-small').text(msg.small);
+                    $('#post-ctime').text(msg.ctime);
+                    $('#post-mtime').text(msg.mtime);
+                    $('#category-url').attr('href', '/posts/' + msg.category + '/');
+                    if ( msg.author == '{{ g.user.username }}' || '{{ g.user.is_administrator() }}' == 'True' ) {
+                        $('#post-getpost').attr('data-target', "#modify-post").attr('value', msg.id);
+                        $('#post-getdelpostinfo').attr('value', msg.id).attr('data-target', "#del-post");
+                    }
+                }
+            });
+
+            $('#modify-post').on('show.bs.modal', function () {
+                var id = $('#post-getpost').attr('value');
+                $.ajax({
+                    url: '{{ url_for('getpost') }}',
+                    data: {'id':id},
+                    type: 'post',
+                    success:function (data) {
+                        $('#modify-post #postTitle').val(data['name']);
+                        $('#modify-post #postSmall').val(data['small']);
+                        $('#modify-post #post_editor').html(data['container']);
+                        $('#modify-post button#submit').attr('value', id)
+                    }
+                })
+            });
+
+            $('#del-post').on('show.bs.modal', function () {
+                var id = $('#post-getdelpostinfo').attr('value');
+                $.ajax({
+                    type: 'post',
+                    url: '{{ url_for('getpost') }}',
+                    data: {'id':id},
+                    success: function (data) {
+                        $('#del-post-info').text(data['name']);
+                        $('#submit-del').attr('value', id)
+                    }
+                })
+            });
+
+            $('#modify-post').on('hidden.bs.modal', function () {
+                $('#modify-post #postTitle').val('');
+                $('#modify-post #postSmall').val('');
+                $('#modify-post #post_editor').html('');
+                $('#modify-post button#submit').attr('')
+            });
+
+            $('#modify-post').on('hidden.bs.modal', function () {
+                $('#del-post-info').text('');
+                $('#submit-del').attr('value', '')
+            });
+        })
+    </script>
+{% endblock container %}

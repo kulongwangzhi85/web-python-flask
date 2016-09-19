@@ -94,7 +94,9 @@
                                         <div class="col-md-8 col-lg-8 col-sm-7">
                                             <!-- blockquote -->
                                             <blockquote class="blockquote-reverse" style="padding-top: 30px">
-                                                <p id="postcontainer_p" style="height: 100px; overflow: hidden"></p>
+                                                <a id="post-url">
+                                                    <p id="postcontainer_p" style="height: 100px; overflow: hidden"></p>
+                                                </a>
                                                 <footer>
                                                     <span>Small:</span>
                                                     <cite title="Source Title" id="post-small"></cite>
@@ -104,7 +106,10 @@
                                         </div>
 
                                         <div class="col-md-4 col-lg-4 col-sm-5">
-                                            <h1 id="post-name"></h1>
+
+                                            <a id="post-url">
+                                                <h1 id="post-name"></h1>
+                                            </a>
                                             <h2>Author: <span id="post-author"></span></h2>
                                             <h2>Create DataTime: <span id="post-ctime"></span></h2>
                                             <h2>Update DataTime: <span id="post-mtime"></span></h2>
@@ -459,7 +464,7 @@
                 url: '{{ url_for('delpost') }}',
                 data: {'id': id},
                 success: function (data) {
-                    alert('delete is success!')
+                    alert('delete is success!');
                     window.location.reload()
                 }
             })
@@ -501,7 +506,6 @@
                     'id': id,
                     'name': name,
                     'container': postcontainer,
-                    'categoryid': '{{ category.id }}',
                     'small': small
                 },
                 success: function (data) {
@@ -552,6 +556,18 @@
 
             });
 
+            $('#modify-post').on('hidden.bs.modal', function () {
+                $('#modify-post #postTitle').val('');
+                $('#modify-post #postSmall').val('');
+                $('#modify-post #post_editor').html('');
+                $('#modify-post button#submit').attr('')
+            });
+
+            $('#modify-post').on('hidden.bs.modal', function () {
+                $('#del-post-info').text('');
+                $('#submit-del').attr('value', '')
+            });
+
             $('#add-post').on('hidden.bs.modal', function () {
                 $('input#postTitle').val('');
                 $('#postSmall').val('');
@@ -570,6 +586,7 @@
                         row.find('#post-author').text(n.author);
                         row.find('#post-ctime').text(n.ctime);
                         row.find('#post-mtime').text(n.mtime);
+                        row.find('#post-url').attr('href', '/posts/' + n.category +'/' + n.id + '/');
                         row.find('#post-small').text(n.small);
                         row.find('#postcontainer_p').text(n.container);
                         if ( n.author == '{{ g.user.username }}' || '{{ g.user.is_administrator() }}' == 'True' ) {
