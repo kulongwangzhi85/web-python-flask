@@ -251,7 +251,6 @@ def PostCategoryDeleteing():
 
 
 @app.route('/posts/<string:category>/', methods=['GET', 'POST'])
-@cache.cached(timeout=10)
 def posts(category):
 
     """
@@ -264,26 +263,57 @@ def posts(category):
     categorydb = models.PostCategory.query.filter_by(name=category).first()
     categorydb.clicks += 1
     categorydb.save()
-    posts = categorydb.post
-    return render_template('posts.html', posts=posts, category=categorydb)
+    return render_template('posts.html', category=categorydb)
 
-@app.route('/posts/getposts/', methods=['POST'])
-def getposts():
+# @app.route('/posts/getposts/', methods=['POST'])
+# def getposts():
+#
+#     """
+#     用于posts.html页面中ajax获取posts数据
+#     :return: json数据
+#     """
+#
+#     purifier = HTMLPurifier(remove_entity=True)
+#     if request.method == 'POST' and request.is_xhr:
+#         category = request.form.to_dict()
+#         categoryname = category['category'].split('/')[-2]
+#         categorydb = models.PostCategory.query.filter_by(name=categoryname).first()
+#         postsdb = categorydb.post
+#         postdblist = []
+#         postdbdict = {}
+#         for post in postsdb:
+#             postdbdict['id'] = post.id
+#             postdbdict['name'] = post.name
+#             postdbdict['small'] = post.small
+#             postdbdict['ctime'] = post.ctime
+#             postdbdict['mtime'] = post.mtime
+#             postdbdict['author'] = post.get_author.username
+#             postdbdict['clicks'] = post.clicks
+#             postdbdict['category'] = categoryname
+#             containerhtml = post.container
+#             postdbdict['container'] = purifier.feed(containerhtml)
+#             postdblist.append(copy.deepcopy(postdbdict))
+#         return jsonify(postdblist), 200
 
+
+@app.route('/posts/page/', methods=['GET', 'POST'])
+def getpostspage():
     """
-    用于posts.html页面中ajax获取posts数据
-    :return: json数据
+    posts页面的post获取数据用的分页测试
+    :return:
     """
-
+    page = 1
     purifier = HTMLPurifier(remove_entity=True)
-    if request.method == 'POST' and request.is_xhr:
-        category = request.form.to_dict()
-        categoryname = category['category'].split('/')[-2]
-        categorydb = models.PostCategory.query.filter_by(name=categoryname).first()
-        postsdb = categorydb.post
+    if request.method == 'GET'and request.is_xhr:
+
+        category = request.args['category']
+        page = int(request.args['page'])
+        categorydb = models.PostCategory.query.filter_by(name=category).first()
+        postsdb = categorydb.post.paginate(page, int(app.config['POSTS_PER_PAGE']), False)
+
         postdblist = []
         postdbdict = {}
-        for post in postsdb:
+        for post in postsdb.items:
             postdbdict['id'] = post.id
             postdbdict['name'] = post.name
             postdbdict['small'] = post.small
@@ -291,13 +321,19 @@ def getposts():
             postdbdict['mtime'] = post.mtime
             postdbdict['author'] = post.get_author.username
             postdbdict['clicks'] = post.clicks
-            postdbdict['category'] = categoryname
+            postdbdict['category'] = category
             containerhtml = post.container
             postdbdict['container'] = purifier.feed(containerhtml)
             postdblist.append(copy.deepcopy(postdbdict))
         return jsonify(postdblist), 200
 
-
+    if request.method == 'POST' and request.is_xhr:
+        category = request.form.to_dict()
+        paginatedict = {}
+        categorydb = models.PostCategory.query.filter_by(name=category['category']).first()
+        postsdb = categorydb.post.paginate(page, int(app.config['POSTS_PER_PAGE']), False)
+        paginatedict['pages'] = postsdb.pages
+        return jsonify(paginatedict), 200
 
 @app.route('/posts/add/', methods=['POST'])
 @login_required
@@ -404,4 +440,6 @@ def post(category, postid):
         postdict['author'] = post.get_author.username
         postdict['container'] = post.container
         return jsonify(postdict)
+    post.clicks += 1
+    post.save()
     return render_template('post.html')

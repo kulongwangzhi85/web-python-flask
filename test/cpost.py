@@ -18,7 +18,7 @@ class SQLALchemyTest(unittest.TestCase):
     def test_createusers(self):
         for i in range(100):
             a = models.Post.query.get(4)
-            u = models.Post(name=a.name)
+            u = models.Post(name=a.name+'%02d' % i)
             u.category = a.category
             u.container = a.container
             u.author = a.author
