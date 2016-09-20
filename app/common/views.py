@@ -435,6 +435,7 @@ def post(category, postid):
         postdict['small'] = post.small
         postdict['category'] = post.get_post.name
         postdict['ctime'] = post.ctime
+        postdict['clicks'] = post.clicks
         postdict['mtime'] = post.mtime
         postdict['picture'] = post.get_author.getmaster.picture
         postdict['author'] = post.get_author.username

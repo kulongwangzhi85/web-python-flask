@@ -115,7 +115,7 @@
                                             <span class="label label-info">Info</span>
                                             <span class="label label-warning">Warning</span>
                                             <span class="label label-danger">Danger</span>
-                                            <span class="badge badge-success">42</span>
+                                            <span class="badge badge-success" id="post-clicks"></span>
                                             <div style="height: 1px; margin-top: 20px; background-color: rgb(200,200,200)"></div>
                                         </div>
                                     </div>
@@ -376,6 +376,7 @@
                     $('#post-name').text(msg.name);
                     $('#post-author').text(msg.author);
                     $('#post-small').text(msg.small);
+                    $('#post-clicks').text(msg.clicks);
                     $('#post-ctime').text(msg.ctime);
                     $('#post-mtime').text(msg.mtime);
                     $('#category-url').attr('href', '/posts/' + msg.category + '/');
