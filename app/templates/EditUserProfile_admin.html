@@ -6,7 +6,7 @@
     <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- jQuery-Pagination -->
     <link href="/static/css/pagination.css" rel="stylesheet">
-{#    <link href="/static/build/css/custom.min.css" rel="stylesheet">#}
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
     <link href="/static/css/custom.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- jQuery -->
@@ -280,7 +280,7 @@
                                                 </li>
 {#                                                用于克隆使用当做模板#}
 
-                                                <div id="paginate"></div>
+                                                <div id="pagination"></div>
 
 
                                             </div>
@@ -446,7 +446,7 @@
             data: {'username': username },
             success: function (msg) {
                 var num_total = msg['pages'];
-                $('#paginate').pagination(num_total, {
+                $('#pagination').pagination(num_total, {
                     num_edge_entries: 1,
                     num_display_entries: 5,
                     items_per_page:1,
