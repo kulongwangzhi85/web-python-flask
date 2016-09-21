@@ -254,7 +254,7 @@
                                             <div aria-labelledby="home-tab" id="tab_content1" class="tab-pane fade " role="tabpanel">
 
                                                 <!-- start recent activity -->
-                                                <ul class="messages" id="post-ul">
+                                                <ul class="messages" id="post-ul" style="min-height: 280px">
 
                                                 </ul>
                                                 <!-- end recent activity -->
@@ -443,6 +443,7 @@
         $.ajax({
             url:'{{ url_for('getprofilepost') }}',
             type: 'get',
+            data: {'username': username },
             success: function (msg) {
                 var num_total = msg['pages'];
                 $('#paginate').pagination(num_total, {

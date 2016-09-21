@@ -399,8 +399,10 @@ def getprofilepost():
         return jsonify(postlist)
 
     if request.method == 'GET' and request.is_xhr:
+        username = request.args['username']
+        userid = usermod.Users.query.filter_by(username=username).first()
         postdict = {}
-        postdb = models.Post.query.filter_by(author=g.user.id)
+        postdb = models.Post.query.filter_by(author=userid.id)
         postsdb = postdb.paginate(int(page), int(app.config['POSTS_PER_PAGE']), False)
         postdict['pages'] = postsdb.pages
         return jsonify(postdict)
