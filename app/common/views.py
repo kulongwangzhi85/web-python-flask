@@ -12,6 +12,7 @@ from flask_login import login_required
 from app import app, db
 from app import cache
 from app.users import decorators
+from app.users import models as usermod
 from . import models
 from . import forms
 
@@ -265,36 +266,6 @@ def posts(category):
     categorydb.save()
     return render_template('posts.html', category=categorydb)
 
-# @app.route('/posts/getposts/', methods=['POST'])
-# def getposts():
-#
-#     """
-#     用于posts.html页面中ajax获取posts数据
-#     :return: json数据
-#     """
-#
-#     purifier = HTMLPurifier(remove_entity=True)
-#     if request.method == 'POST' and request.is_xhr:
-#         category = request.form.to_dict()
-#         categoryname = category['category'].split('/')[-2]
-#         categorydb = models.PostCategory.query.filter_by(name=categoryname).first()
-#         postsdb = categorydb.post
-#         postdblist = []
-#         postdbdict = {}
-#         for post in postsdb:
-#             postdbdict['id'] = post.id
-#             postdbdict['name'] = post.name
-#             postdbdict['small'] = post.small
-#             postdbdict['ctime'] = post.ctime
-#             postdbdict['mtime'] = post.mtime
-#             postdbdict['author'] = post.get_author.username
-#             postdbdict['clicks'] = post.clicks
-#             postdbdict['category'] = categoryname
-#             containerhtml = post.container
-#             postdbdict['container'] = purifier.feed(containerhtml)
-#             postdblist.append(copy.deepcopy(postdbdict))
-#         return jsonify(postdblist), 200
-
 
 @app.route('/posts/page/', methods=['GET', 'POST'])
 def getpostspage():
@@ -334,6 +305,7 @@ def getpostspage():
         postsdb = categorydb.post.paginate(page, int(app.config['POSTS_PER_PAGE']), False)
         paginatedict['pages'] = postsdb.pages
         return jsonify(paginatedict), 200
+
 
 @app.route('/posts/add/', methods=['POST'])
 @login_required
@@ -400,24 +372,38 @@ def delpost():
         return make_response()
 
 
-@app.route('/posts/getprofilepost/', methods=['POST'])
+@app.route('/posts/getprofilepost/', methods=['GET', 'POST'])
+@login_required
 def getprofilepost():
-    postdb = models.Post.query.all()
-    postlist = []
-    postdict = {}
-    for posts in postdb:
-        postdict['id'] = posts.id
-        postdict['name'] = posts.name
-        postdict['small'] = posts.small
-        postdict['clicks'] = posts.clicks
-        postdict['author'] = posts.get_author.username
-        postdict['ctime'] = posts.ctime
-        postdict['mtime'] = posts.mtime
-        postdict['category'] = posts.category
-        postdict['container'] = posts.container
-        postdict['picture'] = posts.get_author.getmaster.picture
-        postlist.append(copy.deepcopy(postdict))
-    return jsonify(postlist)
+    page = 1
+    if request.method == "POST" and request.is_xhr:
+        pagedata = request.form.to_dict()
+        userid = usermod.Users.query.filter_by(username=pagedata['username']).first()
+        postdb = models.Post.query.filter_by(author=userid.id)
+        page = pagedata['page']
+        postsdb = postdb.paginate(int(page), int(app.config['POSTS_PER_PAGE']), False)
+        postlist = []
+        postdict = {}
+        for posts in postsdb.items:
+            postdict['id'] = posts.id
+            postdict['name'] = posts.name
+            postdict['small'] = posts.small
+            postdict['clicks'] = posts.clicks
+            postdict['author'] = posts.get_author.username
+            postdict['ctime'] = posts.ctime
+            postdict['mtime'] = posts.mtime
+            postdict['category'] = posts.category
+            postdict['container'] = posts.container
+            postdict['picture'] = posts.get_author.getmaster.picture
+            postlist.append(copy.deepcopy(postdict))
+        return jsonify(postlist)
+
+    if request.method == 'GET' and request.is_xhr:
+        postdict = {}
+        postdb = models.Post.query.filter_by(author=g.user.id)
+        postsdb = postdb.paginate(int(page), int(app.config['POSTS_PER_PAGE']), False)
+        postdict['pages'] = postsdb.pages
+        return jsonify(postdict)
 
 
 @app.route('/posts/<string:category>/<int:postid>/', methods=['GET', 'POST'])

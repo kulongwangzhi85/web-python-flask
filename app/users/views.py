@@ -156,8 +156,9 @@ def EditProfileAboutmeAjax():
         return render_template('aboutme.html')
 
 
-@app.route('/api/v1.0/users/aboutme/post/<username>', methods=['GET'])
-def EditProfileAboutme(username):
+@app.route('/api/v1.0/users/aboutme/post/', methods=['GET'])
+def EditProfileAboutme():
+    username = request.args['username']
     userdb = models.Users.query.filter_by(username=username).first()
     return jsonify(userdb.getmaster.about_me)
 
@@ -182,7 +183,6 @@ def upload_file():
 
 @app.route('/users/edit/profiles/<username>', methods=['GET', 'POST'])
 @login_required
-@cache.cached(timeout=10)
 @decorators.admin_required
 def EditProfiles(username):
     '''
@@ -192,7 +192,6 @@ def EditProfiles(username):
     userdb = models.Users.query.filter_by(username=username).first()
     form = forms.EditProfileAdminForm()
     categorydb = PostCategory.query.all()
-    postdb = Post.query.all()
     if form.validate_on_submit():
         userdb.getmaster.firstname = form.firstname.data
         userdb.getmaster.lastname = form.lastname.data
@@ -209,3 +208,21 @@ def EditProfiles(username):
     form.location.data = userdb.getmaster.location
     form.role.data = userdb.get_role.id
     return render_template('EditUserProfile_admin.html', form=form, categorydb=categorydb)
+
+
+@app.route('/users/edit/profiles/userinfo/', methods=['GET', 'POST'])
+def getprofileinfo():
+
+    if request.method == 'GET' and request.is_xhr:
+        username = request.args['username']
+        userdb = models.Users.query.filter_by(username=username).first()
+        userinfodict = {}
+        userinfodict['id'] = userdb.id
+        userinfodict['username'] = userdb.username
+        userinfodict['location'] = userdb.getmaster.location
+        userinfodict['picture'] = userdb.getmaster.picture
+        userinfodict['userid'] = userdb.userid
+        userinfodict['email'] = userdb.email
+        userinfodict['create_datatime'] = userdb.create_datatime
+        userinfodict['lastseen'] = userdb.last_seen
+        return jsonify(userinfodict)
