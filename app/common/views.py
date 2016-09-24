@@ -391,7 +391,6 @@ def getprofilepost():
             postdict['clicks'] = posts.clicks
             postdict['author'] = posts.get_author.username
             postdict['ctime'] = posts.ctime
-            postdict['mtime'] = posts.mtime
             postdict['category'] = posts.category
             postdict['container'] = posts.container
             postdict['picture'] = posts.get_author.getmaster.picture
@@ -432,3 +431,55 @@ def post(category, postid):
     post.clicks += 1
     post.save()
     return render_template('post.html')
+
+
+@app.route('/posts/comments/get/', methods=['GET', 'POST'])
+def postcomment():
+    """
+    用于获取post文章评论的数据
+    :return:
+    """
+    if request.method == 'GET' and request.is_xhr:
+        jsondata = request.args
+
+        post = models.Post.query.get(int(jsondata['post_id']))
+        commentdb = post.comment.paginate(int(jsondata['page']), int(app.config['POSTS_PER_PAGE']), False)
+        commentsdict = {}
+        data = []
+        for comments in commentdb.items:
+            commentsdict['id'] = comments.id
+            commentsdict['author'] = comments.follow_author.username
+            commentsdict['picture'] = comments.follow_author.getmaster.picture
+            commentsdict['ctime'] = comments.ctime
+            commentsdict['mtime'] = comments.mtime
+            commentsdict['container'] = comments.container
+
+            commentsjson = copy.deepcopy(commentsdict)
+            data.append(commentsjson)
+            data.append(commentdb.pages)
+        return jsonify(data)
+
+    if request.method == 'POST' and request.is_xhr:
+        jsondata = request.form.to_dict()
+        commentdb = models.PostComment.query.get(jsondata['commentid'])
+        commentsdict = {}
+        commentsdict['id'] = commentdb.id
+        commentsdict['author'] = commentdb.follow_author.username
+        commentsdict['picture'] = commentdb.follow_author.getmaster.picture
+        commentsdict['container'] = commentdb.container
+        return jsonify(commentsdict)
+
+
+@app.route('/posts/comments/modify/', methods=['GET', 'POST'])
+def commentmodiry():
+    """
+    执行修改评论方法
+    :return:
+    """
+    if request.method == 'POST' and request.is_xhr:
+        jsondata = request.form.to_dict()
+        commentdb = models.PostComment.query.get(int(jsondata['id']))
+        commentdb.container = jsondata['container']
+        commentdb.save()
+        return make_response()
+

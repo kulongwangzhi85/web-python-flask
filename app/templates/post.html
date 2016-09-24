@@ -10,6 +10,10 @@
     <link href="/static/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <link href="/static/vendors/starrr/dist/starrr.css" rel="stylesheet">
     <link href="/static/build/css/custom.min.css" rel="stylesheet">
+    <!-- jQuery-Pagination -->
+    <link href="/static/css/pagination.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 {% endblock %}
 
@@ -38,8 +42,8 @@
                                 <div class="input-group">
                                     <input type="text" placeholder="Search for..." class="form-control">
                                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default">Go!</button>
-                    </span>
+                                        <button type="button" class="btn btn-default">Go!</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -68,6 +72,7 @@
                                     </ul>
                                     <div class="clearfix"></div>
                                 </div>
+
                                 <div class="x_content" id="post-content">
                                     <div>
                                         <div class="col-md-8 col-lg-8 col-sm-7">
@@ -98,10 +103,6 @@
                                                 </a>
                                                 <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
                                                 <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
-
-                                                <a id="post-getdelpostinfo" href="#"  data-toggle="modal">
-                                                    <i class="fa fa-close" style="padding: 0 2px"></i>
-                                                </a>
                                             </div>
                                         </div>
 
@@ -118,13 +119,53 @@
                                             <span class="badge badge-success" id="post-clicks"></span>
                                             <div style="height: 1px; margin-top: 20px; background-color: rgb(200,200,200)"></div>
                                         </div>
+
                                     </div>
                                 </div>
+                                <div id="comment-clone-container"></div>
+
+                                <div class="x_content" id="comment-content" style="display: none">
+                                    <div class="col-md-8 col-lg-8 col-sm-7">
+                                        <!-- blockquote -->
+                                        <blockquote class="blockquote-reverse" style="padding-top: 30px">
+                                            <p id="comment-container"></p>
+                                        </blockquote>
+
+                                    </div>
+
+                                    <div class="col-md-4 col-lg-4 col-sm-5">
+
+                                        <img id="comment-author-picture">
+                                        <h2>Author: <span id="comment-author"></span></h2>
+                                        <h2>Create DataTime: <span id="comment-ctime"></span></h2>
+                                        <h2>Update DataTime: <span id="comment-mtime"></span></h2>
+
+                                        <div>
+                                            <a id="comment-getpost" href="#" data-toggle="modal">
+                                                <i class="fa fa-edit" style="padding: 0 2px"></i>
+                                            </a>
+                                            <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
+                                            <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-md-12" style="margin: 0 0 20px 0;">
+                                        <div style="height: 1px; margin-top: 20px; background-color: rgb(200,200,200)"></div>
+                                    </div>
+                                </div>
+                                <div id="pagination" style="margin-left: 35%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+            {% include 'modify_comment.html' %}
+
 
 
             <div class="modal fade bs-example-modal-lg" role="dialog" aria-hidden="true" data-toggle="modal" id="modify-post">
@@ -255,48 +296,11 @@
             </div>
 
 
-
-            <div class="modal fade" role="dialog" aria-hidden="true" data-toggle="modal" id="del-post">
-                <div class="modal-dialog">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>POST<small>DELETE</small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <p>确定要删除: </p>
-                            <div id="del-post-info"></div>
-                            <div class="ln_solid"></div>
-                            <div class="col-md-8 col-sm-8 col-xs-10 col-xs-offset-8">
-                                <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                <button id="submit-del" class="btn btn-success" onclick="javascript:delpostconfirm()" data-dismiss="modal">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div
-
-
             {% include 'footer.html' %}
         </div>
     </div>
-    <!-- jQuery -->
-    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery-Pagination-->
+    <script src="/static/js/jquery.pagination.js"></script>
     <!-- Bootstrap -->
     <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -314,21 +318,6 @@
     <!-- bootstrap-daterangepicker -->
 
     <script>
-        function delpostconfirm() {
-            var id = $('#submit-del').attr('value');
-            var backurl = $('#category-url').attr('href');
-            $.ajax({
-                type: 'post',
-                url: '{{ url_for('delpost') }}',
-                data: {'id': id},
-                success: function (data) {
-                    alert('delete is success!');
-                    window.history.back(-1)
-                }
-            })
-
-        }
-
         function modifypost() {
             var id = $('#modify-post button#submit').attr('value');
             var name = $('#modify-post #postTitle').val();
@@ -363,29 +352,6 @@
 
             });
 
-            pagepath = window.location.pathname;
-            $.ajax({
-                url: pagepath,
-                type: 'post',
-                datatype: 'json',
-                success: function (msg) {
-                    $('#category').text(msg.category);
-                    $('#author-picture').attr('src', msg.picture);
-                    $('#postcontainer_p').html(msg.container);
-                    $('#categorysubpage').text(msg.name);
-                    $('#post-name').text(msg.name);
-                    $('#post-author').text(msg.author);
-                    $('#post-small').text(msg.small);
-                    $('#post-clicks').text(msg.clicks);
-                    $('#post-ctime').text(msg.ctime);
-                    $('#post-mtime').text(msg.mtime);
-                    $('#category-url').attr('href', '/posts/' + msg.category + '/');
-                    if ( msg.author == '{{ g.user.username }}' || '{{ g.user.is_administrator() }}' == 'True' ) {
-                        $('#post-getpost').attr('data-target', "#modify-post").attr('value', msg.id);
-                        $('#post-getdelpostinfo').attr('value', msg.id).attr('data-target', "#del-post");
-                    }
-                }
-            });
 
             $('#modify-post').on('show.bs.modal', function () {
                 var id = $('#post-getpost').attr('value');
@@ -426,6 +392,93 @@
                 $('#del-post-info').text('');
                 $('#submit-del').attr('value', '')
             });
+
+            var post_id = localStorage.getItem('post_id');
+            function paginationback(page_index, jq) {
+                var page = page_index + 1;
+                if (page == 1){
+                    pagepath = window.location.pathname;
+                    $.ajax({
+                        url: pagepath,
+                        type: 'post',
+                        datatype: 'json',
+                        success: function (msg) {
+                            $('#category').text(msg.category);
+                            if (msg.picture == null ){
+                                $('#author-picture').attr('src', '{{ g.systemsetting.picture }}');
+                            }else {
+                                $('#author-picture').attr('src', msg.picture);
+                            }
+                            $('#postcontainer_p').html(msg.container);
+                            $('#categorysubpage').text(msg.name);
+                            $('#post-name').text(msg.name);
+                            $('#post-author').text(msg.author);
+                            $('#post-small').text(msg.small);
+                            $('#post-clicks').text(msg.clicks);
+                            $('#post-ctime').text(msg.ctime);
+                            $('#post-mtime').text(msg.mtime);
+                            $('#category-url').attr('href', '/posts/' + msg.category + '/');
+                            if ( msg.author == '{{ g.user.username }}') {
+                                $('#post-getpost').attr('data-target', "#modify-post").attr('value', msg.id);
+                            }
+                            localStorage.setItem('post_id', msg.id);
+                            $('#post-content').css('display', 'block');
+                        }
+                    });
+                }else {
+                    $('#post-content').css('display', 'none');
+                }
+                $('#comment-container').children().remove();
+                var jsondata = { 'post_id': post_id , 'page': page };
+
+                $.ajax({
+                    url: '{{ url_for('postcomment') }}',
+                    type: 'get',
+                    data: jsondata,
+                    datatype: 'json',
+                    success: function (msg) {
+                        $('#comment-clone-container').children().remove();
+                        $.each(msg, function (i, n) {
+                            if (n.container != undefined ){
+                                var row = $('#comment-content').clone();
+                                row.find('#comment-container').html(n.container);
+                                row.find('#comment-author').html(n.author);
+                                row.find('#comment-ctime').html(n.ctime);
+                                row.find('#comment-mtime').html(n.mtime);
+                                if ( n.picture == null ){
+                                    row.find('#comment-author-picture').attr('src', '{{ g.systemsetting.picture }}');
+                                }else {
+                                    row.find('#comment-author-picture').attr('src', n.picture);
+                                }
+                                if (n.author == '{{ g.user.username }}') {
+                                    row.find('#comment-getpost').attr('onclick', 'getcomment(' + n.id + ')').attr('data-target', "#modify-comment");
+                                }
+
+                                row.appendTo('#comment-clone-container').css('display', 'block')
+                            }else {
+                                localStorage.setItem('pages', n)
+                            }
+                        });
+                    }
+                })
+
+
+            }
+
+            var unm_total;
+            var pages = localStorage.getItem('pages');
+            if (pages == null ){
+                unm_total = 1;
+            }else {
+                unm_total = pages;
+            }
+            $('#pagination').pagination(unm_total, {
+                num_edge_entries: 1,
+                num_display_entries: 5,
+                items_per_page:1,
+                load_first_page: true,
+                callback: paginationback
+            })
         })
     </script>
 {% endblock container %}

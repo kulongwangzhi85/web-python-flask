@@ -16,7 +16,7 @@ class SQLALchemyTest(unittest.TestCase):
         db.session.remove()
 
     def test_createusers(self):
-        for i in range(20):
+        for i in range(10):
             u = models.Users(username='guocl%02d' % i, email='guocl%02d@localhost.com' % i, password='aaaaaa')
             u.save()
 

@@ -87,6 +87,7 @@ class Post(db.Model):
     container = db.Column(db.PickleType)
     category = db.Column(db.Integer, db.ForeignKey('postcategory.id'))
     clicks = db.Column(db.Integer)
+    comment = db.relationship('PostComment', backref=db.backref('follow_post'), lazy='dynamic')
 
 
     def __init__(self, *args, **kwargs):
@@ -106,4 +107,26 @@ class Post(db.Model):
 
     def delete(self):
         db.session.delete(self)
+        db.session.commit()
+
+
+class PostComment(db.Model):
+
+    """
+    用于POST文章的评论
+    """
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ctime = db.Column(db.DateTime(), default=datetime.utcnow)
+    mtime = db.Column(db.DateTime())
+    post = db.Column(db.Integer, db.ForeignKey('post.id'))
+    container = db.Column(db.PickleType)
+
+    def __init__(self):
+        self.ctime = datetime.utcnow()
+
+    def save(self):
+        self.mtime = datetime.utcnow()
+        db.session.add(self)
         db.session.commit()

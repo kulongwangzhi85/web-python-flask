@@ -22,6 +22,7 @@ class Users(db.Model, UserMixin):
     post = db.relationship('Post', backref=db.backref('get_author'), lazy='dynamic') #文章所有者
     managercategory = db.relationship('PostCategory', backref=db.backref('get_manager'), lazy='dynamic') #category管理者
     profile = db.Column(db.Integer, db.ForeignKey('userprofile.id')) #用户档案
+    comment = db.relationship('PostComment', backref=db.backref('follow_author'), lazy='dynamic')
 
     def __init__(self, **kwargs):
         self.username = kwargs['username']
