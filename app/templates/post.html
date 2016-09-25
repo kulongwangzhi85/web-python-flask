@@ -135,7 +135,7 @@
 
                                     <div class="col-md-4 col-lg-4 col-sm-5">
 
-                                        <img id="comment-author-picture">
+                                        <img id="comment-author-picture" style="width: 150px; height: 150px">
                                         <h2>Author: <span id="comment-author"></span></h2>
                                         <h2>Create DataTime: <span id="comment-ctime"></span></h2>
                                         <h2>Update DataTime: <span id="comment-mtime"></span></h2>
@@ -145,7 +145,6 @@
                                                 <i class="fa fa-edit" style="padding: 0 2px"></i>
                                             </a>
                                             <a href="#"><i class="fa fa-comments-o" style="padding: 0 2px"></i></a>
-                                            <a href="#"><i class="fa fa-star-o" style="padding: 0 2px"></i></a>
                                         </div>
                                     </div>
 
@@ -393,7 +392,7 @@
                 $('#submit-del').attr('value', '')
             });
 
-            var post_id = localStorage.getItem('post_id');
+            var post_id = sessionStorage.getItem('post_id');
             function paginationback(page_index, jq) {
                 var page = page_index + 1;
                 if (page == 1){
@@ -421,7 +420,8 @@
                             if ( msg.author == '{{ g.user.username }}') {
                                 $('#post-getpost').attr('data-target', "#modify-post").attr('value', msg.id);
                             }
-                            localStorage.setItem('post_id', msg.id);
+{#                            localStorage.setItem('post_id', msg.id);#}
+                            sessionStorage.setItem('post_id', msg.id);
                             $('#post-content').css('display', 'block');
                         }
                     });
@@ -456,7 +456,7 @@
 
                                 row.appendTo('#comment-clone-container').css('display', 'block')
                             }else {
-                                localStorage.setItem('pages', n)
+                                sessionStorage.setItem('pages', n)
                             }
                         });
                     }
@@ -466,7 +466,7 @@
             }
 
             var unm_total;
-            var pages = localStorage.getItem('pages');
+            var pages = sessionStorage.getItem('pages');
             if (pages == null ){
                 unm_total = 1;
             }else {
