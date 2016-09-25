@@ -483,3 +483,15 @@ def commentmodiry():
         commentdb.save()
         return make_response()
 
+
+@app.route('/posts/comments/add/', methods=['POST'])
+def commentadd():
+    """用于增加评论"""
+
+    if request.method == 'POST' and request.is_xhr:
+        jsondata = request.form.to_dict()
+        addcomment = models.PostComment(container=jsondata['container'])
+        addcomment.author = g.user.id
+        addcomment.post = int(jsondata['id'])
+        addcomment.save_outtime()
+        return make_response()

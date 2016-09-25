@@ -24,7 +24,14 @@
             {% include 'left_col.html' %}
             {% include 'top_navigation.html' %}
 
-
+            <div style="font-size: 5em; position: fixed; right: 40px; top: 350px; z-index: 999;
+             height: 70px; width: 70px; text-align: center; line-height: 65px">
+                {% if g.user.is_authenticated %}
+                    <a href="#" data-toggle="modal" data-target="#addcomment"><i class="fa fa-plus-square" title="Comment"></i></a>
+                {% else %}
+                    <a href="#"><i class="fa fa-plus-square" title="Comment"></i></a>
+                {% endif %}
+            </div>
 
             <div role="main" class="right_col" style="min-height: 1037.83px;">
                 <div class="">
@@ -164,6 +171,7 @@
 
 
             {% include 'modify_comment.html' %}
+            {% include 'add_comment.html' %}
 
 
 
@@ -420,7 +428,6 @@
                             if ( msg.author == '{{ g.user.username }}') {
                                 $('#post-getpost').attr('data-target', "#modify-post").attr('value', msg.id);
                             }
-{#                            localStorage.setItem('post_id', msg.id);#}
                             sessionStorage.setItem('post_id', msg.id);
                             $('#post-content').css('display', 'block');
                         }

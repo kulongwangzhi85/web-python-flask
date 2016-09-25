@@ -111,10 +111,10 @@ class Post(db.Model):
 
 
 class PostComment(db.Model):
-
     """
     用于POST文章的评论
     """
+
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -123,10 +123,15 @@ class PostComment(db.Model):
     post = db.Column(db.Integer, db.ForeignKey('post.id'))
     container = db.Column(db.PickleType)
 
-    def __init__(self):
-        self.ctime = datetime.utcnow()
+    def __init__(self, **kwargs):
+        self.container = kwargs['container']
+
 
     def save(self):
         self.mtime = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
+
+    def save_outtime(self):
         db.session.add(self)
         db.session.commit()
